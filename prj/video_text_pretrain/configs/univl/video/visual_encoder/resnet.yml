@@ -1,0 +1,25 @@
+model_attributes:
+  univl:
+    hidden_size: &model_size 768
+    half_model_size: &half_model_size 384
+
+    with_image_encoder: true
+    image_encoder:
+      type: DetrImageEncoder
+      params: # forward_pass num_clips次，disable resnet gradient_checkpointing
+        gradient_checkpointing: [false, false, false, false]
+        pretrained: true
+        encoder_type: resnet50
+        freeze: false
+        pool_type: avg
+        num_output_features: -1
+        freeze_bn: true
+        replace_stride_with_dilation: [False, False, False]
+        with_position_embedding: false
+        position_embedding:
+          type: sine # ['sine', 'learned']
+          params:
+            num_pos_feats: *half_model_size # should be half of transformer hidden dim
+            normalize: true
+        output_channels: *model_size # should be transoformer hidden dim
+

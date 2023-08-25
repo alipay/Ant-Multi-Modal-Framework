@@ -1,0 +1,204 @@
+task_attributes:
+  univl_task:
+    dataset_size_proportional_sampling: true
+    dataset_attributes:
+      video_text_pretrain:
+        pretraining: True # indicate dataset is built for pretraining
+        data_root_dir: ../tests/data
+
+        # set to True, add itm loss
+        add_false_caption: true
+        annotations:
+          train:
+           - video/univl_img.jsonl
+           - video/univl_video.jsonl
+          val: video/univl_video.jsonl
+          test: video/univl_video.jsonl
+
+        use_videos: True
+        video_field_key: clip_name
+        train_ensemble_n_clips: 2
+        test_ensembel_n_clips: 2
+        num_frm: 1  # sample frames of each clip
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: video/data/mp4
+          val: video/data/mp4
+          test: video/data/mp4
+
+        use_images: True
+        images:
+          train: image
+          val: image
+          test: image
+
+        processors: &processors
+          train_frame_processor:
+            type: custom_transforms
+            params:
+              mode: sequential
+              transforms:
+                - type: ImageLongsideScaleAndPad
+                  params:
+                    max_size: 768
+                    random_scale: true
+                    pad: false
+                - type: GroupNormalize
+                  params: # detr mean/std
+                    mean: [0.485, 0.456, 0.406]
+                    std: [0.229, 0.224, 0.225]
+
+          test_frame_processor:
+            type: custom_transforms
+            params:
+              mode: sequential
+              transforms:
+                - type: ImageLongsideScaleAndPad
+                  params:
+                    max_size: 768
+                    random_scale: false
+                    pad: false
+                - type: GroupNormalize
+                  params: # detr mean/std
+                    mean: [0.485, 0.456, 0.406]
+                    std: [0.229, 0.224, 0.225]
+
+          caption_processor: &caption_processor
+            type: masked_bert_tokenizer
+            params:
+              random_truncate: true
+              max_seq_length: 30 # max_length for each text field
+              mask_probability: 0.15
+              trim_start_token: false # not output start token id, because text info is appended to image info in later encoding stage
+              tokenizer_config:
+                type: bert-base-uncased
+                params:
+                  model_type: bert
+                  do_lower_case: true
+              preprocessor:
+                type: simple_sentence
+                params: {}
+
+
+model_attributes:
+  univl:
+    arch_type: 'univl'
+    training_head_type: video_pretraining
+    training_stage: stage1+stage2
+
+    hidden_size: &model_size 768
+    half_model_size: &half_model_size 384
+
+    with_text_encoder: true
+    text_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-uncased
+        # bert-base-chinese related params
+        num_hidden_layers: 12 # use three layer of bert
+        vocab_size: 30522
+        num_segments: 2
+        hidden_size: 768
+
+    with_img_embeddings: true
+    img_embeddings:
+      type: ClipVisualEmbedding
+      params:
+        max_position_embeddings: 50
+        num_pos_feats: 768
+
+    with_cross_encoder: true
+    cross_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-uncased
+        # bert-base-chinese related params
+        num_hidden_layers: 3 # use three layer of bert
+        vocab_size: 30522
+        num_segments: 2
+        hidden_size: 768
+
+    with_temporal_encoder: false
+    temporal_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-uncased
+        # bert-base-chinese related params
+        num_hidden_layers: 3 # use three layer of bert
+        vocab_size: 30522
+        num_segments: 2
+        hidden_size: 768
+    max_clip_len: 16
+
+    pretraining_heads:
+      transformer_mlm:
+        type: MLM
+        params:
+          vocab_size: 30522
+          in_dim: *model_size
+          hidden_size: 768 # need to tie weights with BERT
+          loss_name: masked_lm_loss
+          metric_name: masked_lm_acc
+
+      text_encoder_mlm: # duplicate mlm modules will not cause much cost due to tied-weights
+        type: MLM
+        params:
+          vocab_size: 30522
+          in_dim: 768
+          hidden_size: 768 # need to tie weights with BERT
+          loss_name: masked_lm_text_encoder_loss
+          metric_name: masked_lm_text_encoder_acc
+
+      itm:
+        type: ITM
+        params:
+          hidden_size: 768
+          with_pooler: false # shared pooler
+
+    hard_example_mining: true
+    re_weight_method: "median"   # ["median", "None"]
+    re_sample_method: "nearliest"    # ["top_k", "nearliest"]
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 5e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-2
+
+training_parameters:
+  trainer: base_trainer
+  clip_norm_mode: all
+  clip_gradients: true
+  max_grad_l2_norm: 5.0
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_epochs: # 12 epoch
+    - 10
+  use_warmup: false
+  warmup_factor: 0.1
+  warmup_iterations: 1000
+  max_epochs: 20
+  patience: 1000000
+  batch_size: 16
+  test_batch_size: 16
+  num_workers: 3
+  task_size_proportional_sampling: true
+  monitored_metric: total_loss
+  metric_minimize: true
+  report_format: csv
+  snapshot_interval: 5000
+  log_interval: 500
+  max_ckpt_num: 10
+

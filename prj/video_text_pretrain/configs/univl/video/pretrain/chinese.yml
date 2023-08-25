@@ -1,0 +1,40 @@
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_pretrain:
+        processors:
+          caption_processor:
+            type: masked_bert_tokenizer
+            params:
+              tokenizer_config:
+                type: bert-base-chinese
+
+model_attributes:
+  univl:
+    text_encoder:
+      params:
+        bert_model_name: bert-base-chinese
+        vocab_size: 21128
+
+    cross_encoder:
+      params:
+        bert_model_name: bert-base-chinese
+        vocab_size: 21128
+
+    temporal_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        bert_model_name: bert-base-chinese
+        # bert-base-chinese related params
+        vocab_size: 21128
+
+    pretraining_heads:
+      transformer_mlm:
+        type: MLM
+        params:
+          vocab_size: 21128
+
+      text_encoder_mlm: # duplicate mlm modules will not cause much cost due to tied-weights
+        type: MLM
+        params:
+          vocab_size: 21128

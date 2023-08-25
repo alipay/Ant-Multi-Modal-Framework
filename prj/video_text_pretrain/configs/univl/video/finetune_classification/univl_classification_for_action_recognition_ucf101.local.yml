@@ -1,0 +1,30 @@
+includes:
+- ./univl_classification_for_action_recognition_ucf101.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_classification:
+        data_root_dir: ../tests/data/video/
+
+        annotations:
+          train: ucf101_sample.jsonl
+          val: ucf101_sample.jsonl
+          test: ucf101_sample.jsonl
+
+        train_ensemble_n_clips: 2 # 8 for full test
+        test_ensembel_n_clips: 2 # 16 for full test
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: data/avi
+          val: data/avi
+          test: data/avi
+
+training_parameters:
+  batch_size: 1
+  test_batch_size: 1
+  num_workers: 0
+  log_interval: 10
+  max_ckpt_num: 2

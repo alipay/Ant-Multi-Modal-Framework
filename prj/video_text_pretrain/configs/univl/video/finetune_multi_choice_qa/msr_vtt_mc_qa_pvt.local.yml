@@ -1,0 +1,28 @@
+includes:
+- ./msr_vtt_mc_qa_pvt.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_retrieval:
+        data_root_dir: ../tests/data/video/
+
+        annotations:
+          train: msrvtt_multi_choice_qa.jsonl
+          val: msrvtt_multi_choice_qa.jsonl
+          test: msrvtt_multi_choice_qa.jsonl
+
+        train_ensemble_n_clips: 16 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: data/mp4.lmdb
+          val: data/mp4.lmdb
+          test: data/mp4.lmdb
+
+training_parameters:
+  batch_size: 2
+  test_batch_size: 2
+

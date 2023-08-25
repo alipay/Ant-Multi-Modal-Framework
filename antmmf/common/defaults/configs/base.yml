@@ -1,0 +1,215 @@
+# Configuration for training
+training_parameters:
+    # Name of the trainer class used to define the training/evalution loop
+    trainer: 'base_trainer'
+    # Name of the experiment, will be used while saving checkpoints
+    # and generating reports
+    experiment_name: run
+    # Maximum number of iterations the training will run
+    max_iterations: .inf
+    # Maximum epochs in case you don't want to use iterations
+    # Can be mixed with max iterations, so it will stop whichever is
+    # completed first. Default: null means epochs won't be used
+    max_epochs: null
+    # After `log_interval` iterations, current iteration's training loss and
+    # metrics will be reported. This will also report validation
+    # loss and metrics on a single batch from validation set
+    # to provide an estimate on validation side
+    log_interval: 100
+    # After `snapshot_interval` iterations, pythia will make a snapshot
+    # which will involve creating a checkpoint for current training scenarios
+    # This will also evaluate validation metrics on whole validation set
+    # TODO: Change this to checkpoint_interval and create a new
+    # `validation_interval` for evaluating on validation set
+    snapshot_interval: 1000
+    # Maximum number of saved checkpoints during training, antmmf will remove
+    # earlier checkpoints if reaching `max_ckpt_num` limitation.
+    max_ckpt_num: null
+    # Whether gradients should be clipped
+    clip_gradients: false
+    # Mode for clip norm
+    clip_norm_mode: all
+    # Device to be used, if cuda then GPUs will be used
+    device: cuda
+    # Seed to be used for training. -1 means random seed.
+    # Either pass fixed through your config or command line arguments
+    seed: null
+    # Size of each batch. If distributed or data_parallel
+    # is used, this will be divided equally among GPUs
+    batch_size: 512
+    # Size of val/test batch, default as training batch_size
+    # test_batch_size: *batch_size
+    # Number of workers to be used in dataloaders
+    num_workers: 4
+
+    # Sampler & distributed_sampler are added for customizing training sampler
+    # Training Sampler if using data_parallel, (Default:random_sampler)
+    sampler:
+        type: random_sampler
+        params: {}
+
+    # Training Sampler if using distributed training, (Default:distributed_sampler)
+    distributed_sampler:
+        type: distributed_sampler
+        # Whether to divide val/test dataset into NUM_GPU splits and assign each GPU with only **ONE** split.
+        # If set to false, each GPU will own a **complete** val/test dataset.
+        split_eval: false
+        params: {}
+
+    # Whether to use early stopping, (Default: false)
+    should_early_stop: false
+    # Patience for early stopping
+    patience: 30000
+    # Metric to be monitored for early stopping
+    # loss will monitor combined loss from all of the tasks
+    # Usually, it will be of the form `dataset_metric`
+    # for e.g. vqa2_vqa_accuracy
+    monitored_metric: total_loss
+    # Whether the monitored metric should be minimized for early stopping
+    # or not, for e.g. you would want to minimize loss but maximize accuracy
+    metric_minimize: true
+
+    # Should a lr scheduler be used
+    lr_scheduler: false
+    # Steps for LR scheduler, will be an array of iteration count
+    # when lr should be decreased
+    lr_steps: []
+    # Epochs for LR scheduler, an array of epoch count when lr should be
+    # decreased, prior to lr_steps if indicated both.
+    lr_epochs: []
+    # Ratio for each lr step
+    lr_ratio: 0.1
+
+    # Should use warmup for lr
+    use_warmup: false
+    # Warmup factor learning rate warmup
+    warmup_factor: 0.2
+    # Iteration until which warnup should be done
+    warmup_iterations: 1000
+
+    # Type of run, train+inference by default means both training and inference
+    # (test) stage will be run, if run_type contains 'val',
+    # inference will be run on val set also.
+    run_type: train+inference
+    # Level of logging, only logs which are >= to current level will be logged
+    logger_level: info
+    # Whether to use distributed training, mutually exclusive with respected
+    # to `data_parallel` flag
+    distributed: false
+    # Local rank of the GPU device
+    local_rank: null
+    # When set to ``True``, DDP knows the trained graph is static, only supported for pytorch version>=1.9.0.
+    # Static graph means:
+    #    1) The set of used and unused parameters will not change during the whole training loop; in
+    #       this case, it does not matter whether users set ``find_unused_parameters = True`` or not.
+    #    2) How the graph is trained will not change during the whole training loop (meaning there is
+    #       no control flow depending on iterations).
+    # When static_graph is set to be ``True``, DDP will support cases that can not be supported in the past:
+    #  1) Reentrant backwards.  2) Activation checkpointing multiple times. 3) Activation checkpointing when
+    # model has unused parameters.  4) There are model parameters that are outside of forward function.
+    #  5) Potentially improve performance when there are unused parameters, as DDP will not search graph in
+    # each iteraton to detect unused parameters when static_graph is set to be ``True``.
+    static_graph: false
+
+    # Whether to use data parallel, mutually exclusive with respect to
+    # `distributed` flag
+    data_parallel: false
+    # Whether JSON files for evalai evaluation should be generated
+    evalai_inference: false
+    # Indicate output file for evalai inference, if not indicated, default path generated by timestamp will be used
+    evalai_inference_file: null
+    # Indicate max samples to write in one evalai_inference_file, if number of samples to predict exceeds this limit,
+    # antmmf will automatically split samples into multiple evalai_inference_files. The
+    # `evalai_max_predictions_per_file` param is intended to support large test set for evalai_inference.
+    evalai_max_predictions_per_file: .inf
+    # report_format when evalai_inference is true
+    report_format: json
+    # Use to load specific modules from checkpoint to your model,
+    # this is helpful in finetuning. for e.g. you can specify
+    # text_embeddings: text_embedding_pythia
+    # for loading `text_embedding` module of your model
+    # from `text_embedding_pythia`
+    pretrained_mapping: {}
+    # Whether the above mentioned pretrained mapping should be loaded or not
+    load_pretrained: false
+
+    # Directory for saving checkpoints and other metadata
+    save_dir: "./save"
+    # Directory for saving logs
+    log_dir: "./logs"
+    # Whether Pythia should log or not, Default: False, which means
+    # pythia will log by default
+    should_not_log: false
+
+    # If verbose dump is active, pythia will dump dataset, model specific
+    # information which can be useful in debugging
+    verbose_dump: false
+    # If resume is true, pythia will try to load automatically load
+    # last of same parameters from save_dir
+    resume: false
+    # `resume_file` can be used to load a specific checkpoint from a file
+    resume_file: null
+    # `restart` flag used to simply load weights from `resume_file`, but not resume training state
+    restart: false
+    # Whether to pin memory in dataloader
+    pin_memory: false
+
+    # Use in multi-tasking, when you want to sample tasks proportional to their sizes
+    task_size_proportional_sampling: true
+
+    # training loss calculation before(false) or after(true) synchronized outputs from multiple gpus
+    # This is especially useful when loss calculation sensitive to batch-size, such as  eet-loss .etc
+    synchronized_loss: false
+
+    # Calculating BN's mean and standard-deviation per-dimension over all mini-batches of the same process.
+    # Currently SyncBatchNorm only supports DistributedDataParallel (DDP) with single GPU per process.
+    sync_bn: false
+
+    # Enable automatic mixed precision training: training with torch.cuda.amp.autocast and torch.cuda.amp.GradScaler
+    # together. Requires cuda available and torch.__version__>=1.7
+    enable_amp: false
+ 
+    # Number of updates steps to accumulate before performing a backward/update pass, the virtual batch_size
+    # equals to batch_size * gradient_accumulation_steps
+    gradient_accumulation_steps: 1
+
+    # find_unused_parameters flag for DDP. Set to False when using ddp with gradient checkpointing, refer to:
+    # https://discuss.pytorch.org/t/how-to-use-torch-nn-parallel-distributeddataparallel-and-torch-utils-checkpoint-together/96338/4
+    find_unused_parameters: true
+
+    # whether disable the tqdm bar or not. In k8s environment, we should set it to true, because the tqdm
+    # will output a lot of logs, which will overwhelm the useful ones.
+    disable_tqdm: false
+    # using fast op in training: antmmf/utils/optim_utils.py
+    replace_speedup_op: false
+
+    num_nodes: 1
+    num_gpus_per_node: 0
+
+# Attributes for model, default configuration files for various models
+# included in pythia can be found under configs directory in root folder
+model_attributes: {}
+
+# Attributes for tasks which encapsulates datasets. Separate configuration
+# for different datasets included in pythia are included in tasks folder
+# which can be mixed and matched to train multiple datasets together
+# An example for mixing all vqa datasets is present under vqa folder
+task_attributes: {}
+
+# Attributes for optimizer, examples can be found in models' configs in
+# configs folder
+optimizer_attributes: {}
+
+# Online inference config
+predictor_parameters:
+    # Name of the predictor class used to define the inference process
+    predictor: 'base_predictor'
+    # Device to be used, if cuda then GPUs will be used
+    device: cpu
+    # Local rank of the GPU device
+    local_rank: 0
+    # Model_dir saved by antmmf.common.checkpoint class,
+    # It is a directory including
+    # * 1) model weight file like '*.pth'
+    # * 2) config yaml file, usually named 'config.yaml'
+    model_dir: null
