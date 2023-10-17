@@ -1,5 +1,5 @@
-# Code for CNVid-3.5M in Pytorch
-CVPR 2023论文，《CNVid-3.5M: Build, Filter, and Pre-train the Large-scale Public Chinese Video-text Dataset》，的相关技术代码。
+# Ant Multi-Modal-Framework (AntMMF)
+蚂蚁自研多模态视频预训练框架。
 
 ## Introduction （介绍）
 
