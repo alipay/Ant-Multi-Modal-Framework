@@ -24,7 +24,7 @@ AntMMF的第一级文件目录如下所示：
 
 ## Lincense （使用协议）
 
-协议为CC BY 4.0(https://creativecommons.org/licenses/by/4.0/)
+协议为CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
 使用本项目前，请先阅读LICENSE.txt。如果您不同意该使用协议中列出的条款、法律免责声明和许可，您将不得使用本项目中的这些内容。
 
