@@ -1,24 +1,42 @@
 # Ant Multi-Modal-Framework (AntMMF)
 蚂蚁自研多模态视频预训练框架。
 
+<p align="center">
+  
+<p align="center">
+    👋 团队目前深耕自研多模态大模型，并已有相关较为成熟的经验和产品。欢迎感兴趣，有能力的小伙伴加入我们，一起打造新一代多模态大模型的全新生态！
+</p>
+
+</p>
+
+*Read this in [English](README_en.md).*
+
+## News （最近更新）
+
+本项目作为底层代码库，是如下项目的底层依赖，包括：
+
+- SNP-S3						# 多模态预训练模型【TCSVT，CCF-B】
+- CNVid-3.5M        # 中文多模态预训练模型 & 中文视频文本数据集 【CVPR-23，CCF-A】
+
 ## Introduction （介绍）
 
 该论文的代码库简称为AntMMF，用于多模态视频预训练。
 
 AntMMF的第一级文件目录如下所示：
+- antmmf						# 核心代码库
+- prj								# 工程项目库 （主要代码）
+- tests							# 本地测试脚本及数据
 - LEGAL.md 					# 合法性声明
 - README.md					# 使用指南
-- antmmf						# 核心代码库
-- docker						# docker环境说明（后续补充）
-- prj								# 工程项目库 （主要代码）
+- README-CN.md			# 使用指南（中文）
 - requirements.txt	# 依赖包
--tests							# 本地测试脚本及数据
+
 
 ## Lincense （使用协议）
 
-协议为CC BY 4.0(https://creativecommons.org/licenses/by/4.0/)
+协议为CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 
-Please first LICENSE.txt. You must not use the content in this project if you do not agree to the terms, legal disclaimer, and license outlined in these files.
+使用本项目前，请先阅读LICENSE.txt。如果您不同意该使用协议中列出的条款、法律免责声明和许可，您将不得使用本项目中的这些内容。
 
 ## Installation （安装指南）
 
@@ -30,7 +48,7 @@ source activate antmmf
 
 # clone项目地址
 cd /YourPath/
-git clone -b dxn_0709_open https://code.alipay.com/multimodal/antmmf.git
+git clone https://code.alipay.com/multimodal/antmmf.git
 
 # 安装包依赖
 cd antmmf
@@ -39,7 +57,7 @@ pip install -r requirements.txt
 
 - AntMMF支持通过docker启动，具体详见`\docker`文档。
 
-`TODO`：docker文档待后续dockerfile对外披露后，再补充。
+`TODO`：docker文档和相关环境整理中，后续会对外进行发布。
 
 ## Dataset (数据集)
 
