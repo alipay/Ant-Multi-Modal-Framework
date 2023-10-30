@@ -1,7 +1,4 @@
 # Base Video-Text Pre-training （Base-VTP）
-多模态视频预训练基准框架。
-
-## Introduction （介绍）
 
 该子代码库为基准的多模态视频预训练代码库。
 
