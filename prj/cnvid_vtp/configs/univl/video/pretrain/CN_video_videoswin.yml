@@ -1,0 +1,74 @@
+includes:
+- ./base.yml
+- ./video_swin.yml # use videoswin as visual encoder
+- ./chinese.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_pretrain:
+        data_root_dir: /YourPath/CNVid/
+
+        annotations_loader: auto_split
+        annotations:
+          train:
+            - annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_train3_5m.jsonl
+          val: annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_val5k.jsonl
+          test: annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_val5k.jsonl
+
+        use_asrs: true
+        asrs:
+          train: asr_files
+          val: asr_files
+          test: asr_files
+        asr_sampler_config:
+          with_long_context: true
+          train_n_pairs: 5
+          test_n_pairs: 5
+          min_words: 5
+          min_time: 5.0
+
+        use_images: false
+
+        use_videos: true
+        videos:
+          train: raw_frames
+          val: raw_frames
+          test: raw_frames
+
+        fps: 1  # target fps
+        num_frm: 1  # sample frames of each clip, 每个clip 2s跨度
+        train_ensemble_n_clips: 4 # 每个pair视频采样clip数
+        test_ensembel_n_clips: 4
+
+        processors:
+          caption_processor:
+            type: masked_bert_tokenizer
+            params:
+              random_truncate: true
+              max_seq_length: 50 # max_length for each text field
+
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 5e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  distributed_sampler:
+    type: random_sampler
+  lr_epochs:
+    - 15
+  max_epochs: 40
+  max_iterations: .inf
+  batch_size: 128
+  num_workers: 8
+  use_warmup: true
+  warmup_factor: 0.1
+  warmup_iterations: 2000
+
+amp_attributes:
+  amp_escapes: BertSelfAttention # record as class1,class2,...,class_n these will be operated in fp32
+  growth_interval: 500

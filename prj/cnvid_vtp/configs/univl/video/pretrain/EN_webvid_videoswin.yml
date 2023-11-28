@@ -1,0 +1,35 @@
+includes:
+- ./howto100m_coco_vg_rnd_asr.yml
+- ./video_swin.yml # use videoswin as visual encoder
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_pretrain:
+        data_root_dir: /YourPath/
+
+        annotations:
+          train:
+            - webvid/annotations/train.jsonl
+          val: webvid/annotations/val.jsonl
+          test: webvid/annotations/val.jsonl
+
+        videos:
+          train: webvid/videos
+          val: webvid/videos
+          test: webvid/videos
+
+
+training_parameters:
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_epochs:
+    - 5
+  max_epochs: 10
+  use_warmup: true
+  warmup_factor: 0.1
+  warmup_iterations: 2000
+  batch_size: 128
+  test_batch_size: 64
+  num_workers: 4
+  enable_amp: true

@@ -1,0 +1,59 @@
+includes:
+- ./base.yml
+- ./video_swin.yml # use videoswin as visual encoder
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_pretrain:
+        data_root_dir: /YourPath/
+
+        annotations:
+          train: 
+            - annotations/howto100m_antmmf_pretrained_format_with_subfix_train_small.jsonl
+          val: annotations/howto100m_antmmf_pretrained_format_with_subfix_val_small.jsonl
+          test: annotations/howto100m_antmmf_pretrained_format_with_subfix_val_small.jsonl
+
+        use_asrs: true
+        asrs:
+          train: HowTo100M/asr_files
+          val: HowTo100M/asr_files
+          test: HowTo100M/asr_files
+        asr_sampler_config:
+          with_long_context: true
+          train_n_pairs: 5
+          test_n_pairs: 5
+          min_words: 5
+          min_time: 5.0
+
+        use_images: false
+
+        use_videos: true
+        videos:
+          train: HowTo100M/videos.lmdb
+          val: HowTo100M/videos.lmdb
+          test: HowTo100M/videos.lmdb
+
+        fps: 1  # target fps
+        num_frm: 1  # sample frames of each clip, 每个clip 2s跨度
+        train_ensemble_n_clips: 4 # 每个pair视频采样clip数
+        test_ensembel_n_clips: 4
+
+        processors:
+          caption_processor:
+            type: masked_bert_tokenizer
+            params:
+              max_seq_length: 30 # max_length for each text field
+
+training_parameters:
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_epochs:
+    - 5
+  max_epochs: 10
+  use_warmup: true
+  warmup_factor: 0.1
+  warmup_iterations: 2000
+  batch_size: 64
+  num_workers: 4
+  enable_amp: true
