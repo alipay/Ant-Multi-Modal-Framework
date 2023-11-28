@@ -1,0 +1,10 @@
+model_attributes:
+  univl:
+    with_image_encoder: true
+    image_encoder:
+      type: VideoSwinEncoder
+      params:
+        model_path: None # None if not model path
+        gradient_checkpointing: [false, false, false, false]
+        pretrained: true
+        freeze: false

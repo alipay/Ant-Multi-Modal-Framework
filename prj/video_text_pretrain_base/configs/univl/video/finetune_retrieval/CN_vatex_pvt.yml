@@ -1,0 +1,66 @@
+includes:
+- ./base.yml
+- ../visual_encoder/pvt.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_retrieval:
+        processors:
+          caption_processor:
+            type: masked_bert_tokenizer
+            params:
+              tokenizer_config:
+                type: bert-base-chinese
+
+        data_root_dir: /YourPath/VATEX/kinetics-dataset/
+
+        annotations:
+          train: vatex_retrieval/train.jsonl
+          val: vatex_retrieval/val.jsonl
+          test: vatex_retrieval/val.jsonl
+
+        train_ensemble_n_clips: 16 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+        num_frm: 1
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: .
+          val: .
+          test: .
+
+model_attributes:
+  univl:
+    image_encoder:
+      type: DetrBatchPVTImageEncoder
+      params:
+        gradient_checkpointing: [true, true, true, true]
+
+    text_encoder:
+      params:
+        bert_model_name: bert-base-chinese
+        vocab_size: 21128
+
+    cross_encoder:
+      params:
+        bert_model_name: bert-base-chinese
+        vocab_size: 21128
+
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  batch_size: 32
+  test_batch_size: 32
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module
+    module.model.model: module.model # 加载预训练similarity_dense

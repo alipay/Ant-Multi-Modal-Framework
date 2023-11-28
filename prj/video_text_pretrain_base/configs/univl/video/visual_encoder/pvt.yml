@@ -1,0 +1,19 @@
+model_attributes:
+  univl:
+    hidden_size: &model_size 768
+    half_model_size: &half_model_size 384
+
+    with_image_encoder: true
+    image_encoder:
+      type: DetrBatchPVTImageEncoder
+      params:
+        model_path: None # None if not model path
+        model_name: pvt_v2_b2
+        # 图像编码器的输出特征数目
+        num_output_features: -1
+        gradient_checkpointing: [false, false, false, false]
+        pretrained: true
+        freeze: false
+        pool_type: avg
+        replace_stride_with_dilation: [False, False, False]
+        output_channels: *model_size # should be transoformer hidden dim

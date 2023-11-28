@@ -1,0 +1,102 @@
+includes:
+- ./univl_video_text_classification.yml
+- ../visual_encoder/pvt.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_classification:
+        pretraining: True # indicate dataset is built for pretraining
+        data_root_dir: /YourPath/UCF101/
+
+        annotations:
+          train: ucf101_v3/train_ucf101_v3.jsonl
+          val: ucf101_v3/test_ucf101_v3.jsonl
+          test: ucf101_v3/test_ucf101_v3.jsonl
+
+        train_ensemble_n_clips: 8 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+        random_sample_clips: false
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: avi_videos
+          val: avi_videos
+          test: avi_videos
+
+        processors: &processors
+          train_frame_processor:
+            type: custom_transforms
+            params:
+              mode: sequential
+              transforms:
+                - type: ImageLongsideScaleAndPad
+                  params:
+                    max_size: 448
+                    random_scale: true
+                    pad: false
+                - type: GroupNormalize
+                  params: # detr mean/std
+                    mean: [0.485, 0.456, 0.406]
+                    std: [0.229, 0.224, 0.225]
+
+          caption_processor: &caption_processor
+            type: masked_bert_tokenizer
+            params:
+              max_seq_length: 30 # max_length for each text field
+
+model_attributes:
+  univl:
+    training_head_type: video_text_classification
+    training_stage: stage1+stage2
+    encoder_lr_decay: 1.0
+    num_labels: 101
+
+    with_text_encoder: true
+    text_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        num_hidden_layers: 12 # use three layer of bert
+
+
+    image_encoder:
+      type: DetrBatchPVTImageEncoder
+      params:
+        gradient_checkpointing: [true, true, true, true]
+
+    losses:
+      - type: cross_entropy
+
+    metrics:
+      - accuracy
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_steps: # support epoch
+    - 15000
+  use_warmup: false
+  warmup_factor: 0.1
+  warmup_iterations: 1000
+  max_iterations: 25000
+  max_epochs: 1000
+  patience: 1000000
+  batch_size: 32
+  test_batch_size: 32
+  num_workers: 5
+  snapshot_interval: 2500
+  log_interval: 500
+  max_ckpt_num: 10
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module

@@ -1,0 +1,38 @@
+includes:
+- ./base.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_retrieval:
+        data_root_dir: /YourPath/msr_vtt/
+
+        annotations:
+          train: msrvtt_retrieval/train.jsonl
+          val: msrvtt_retrieval/val.jsonl
+          test: msrvtt_retrieval/test.jsonl
+
+        train_ensemble_n_clips: 16 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: msrvtt_videos.lmdb
+          val: msrvtt_videos.lmdb
+          test: msrvtt_videos.lmdb
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 5e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  batch_size: 40
+  test_batch_size: 40
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module

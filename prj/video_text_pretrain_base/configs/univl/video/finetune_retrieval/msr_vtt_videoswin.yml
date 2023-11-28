@@ -1,0 +1,59 @@
+includes:
+- ./base.yml
+- ../visual_encoder/video_swin.yml # use videoswin as visual encoder
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_retrieval:
+        data_root_dir: /YourPath/msr_vtt/
+
+        annotations:
+          train: msrvtt_retrieval/train.jsonl
+          val: msrvtt_retrieval/val.jsonl
+          test: msrvtt_retrieval/test.jsonl
+
+        train_ensemble_n_clips: 4 # 8 for full test
+        test_ensembel_n_clips: 4 # 16 for full test
+        num_frm: 1
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: msrvtt_videos.lmdb
+          val: msrvtt_videos.lmdb
+          test: msrvtt_videos.lmdb
+
+        processors:
+          train_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: train
+              crop_size: 224
+              aug_type: randaug
+          test_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: val
+              crop_size: 224
+              aug_type: randaug
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+model_attributes:
+  univl:
+    encoder_lr_decay: 1.0
+
+training_parameters:
+  batch_size: 128
+  test_batch_size: 128
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module
+    module.model.model: module.model # 加载预训练similarity_dense

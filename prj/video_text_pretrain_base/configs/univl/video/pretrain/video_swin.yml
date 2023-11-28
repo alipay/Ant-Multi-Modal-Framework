@@ -1,0 +1,28 @@
+includes:
+- ../visual_encoder/video_swin.yml # use videoswin as visual encoder
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_pretrain:
+        processors:
+          train_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: train
+              crop_size: 224
+              aug_type: randaug
+
+          test_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: val
+              crop_size: 224
+              aug_type: randaug
+
+model_attributes:
+  univl:
+    image_encoder:
+      type: VideoSwinEncoder
+      params:
+        gradient_checkpointing: [false, false, false, false]

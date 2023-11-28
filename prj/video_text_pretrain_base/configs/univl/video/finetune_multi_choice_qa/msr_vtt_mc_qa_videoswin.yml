@@ -1,0 +1,63 @@
+includes:
+- ./base.yml
+- ../visual_encoder/video_swin.yml
+
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_multi_choice_qa:
+        data_root_dir: /YourPath/msr_vtt/
+
+        annotations:
+          train: msrvtt_retrieval/mc_test.jsonl
+          val: msrvtt_retrieval/mc_test.jsonl
+          test: msrvtt_retrieval/mc_test.jsonl
+
+        train_ensemble_n_clips: 16 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: msrvtt_videos.lmdb
+          val: msrvtt_videos.lmdb
+          test: msrvtt_videos.lmdb
+
+        processors:
+          train_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: train
+              crop_size: 224
+              aug_type: randaug
+
+          test_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: val
+              crop_size: 224
+              aug_type: randaug
+
+model_attributes:
+  univl:
+    image_encoder:
+      type: VideoSwinEncoder
+      params:
+        gradient_checkpointing: [true, true, true, true]
+
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  batch_size: 32
+  test_batch_size: 32
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module
