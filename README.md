@@ -64,7 +64,7 @@ pip install -r requirements.txt
 AntMMF提供了本地测试脚本，可以快速进行安装正确性验证：
 ```
 # 终端运行
-sh tests/scripts/local_test/coco_vg.local.sh
+sh prj/base_vtp/scripts/local_test/coco_vg.local.sh
 ```
 
 ## FAQ （问答）
