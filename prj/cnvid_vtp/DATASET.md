@@ -14,6 +14,8 @@ and 'start' and 'end' are arrays correspondings to the start and end time timest
 
 It is recommended to use [SVD-download](https://github.com/svdbase/SVD-download) to download the original videos in the CNVid-3.5M dataset.
 
+* Another instruction/project that may be helpful to download original videos in the CNVid-3.5M dataset: https://github.com/NanmiCoder/MediaCrawler
+
 ## Statistics
 * The CNVid-3.5M dataset contains **3.5 Million** <video, text> pairs.
 * **Topics:**  CNVid-3.5M contains a total of 5.7 Million topics,
