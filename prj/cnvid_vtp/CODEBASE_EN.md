@@ -1,24 +1,18 @@
-# Ant Multi-Modal-Framework (AntMMF)
+# CNVid-VTP Pre-training Codebase
 
-This codebase is now mainly used for multi-modal image/video pre-training.
-
-## Lincense
-
-The lincense of the AntMMF project is CC BY 4.0  (https://creativecommons.org/licenses/by/4.0/).
-
-Please first LICENSE.txt. You must not use the content in this project if you do not agree to the terms, legal disclaimer, and license outlined in these files.
+This codebase is now mainly used for pre-training on our CNVid-3.5M dataset.
 
 ## Installation
 
-- Please follow the forward steps to initialize the environment of the AntMMF.
+- Please follow the forward steps to initialize the environment of the CNVid-VTP.
 ```
 # Build a new environment.
-conda create -n antmmf python=3.8
-source activate antmmf
+conda create -n cnvid-vtp python=3.8
+source activate cnvid-vtp
 
 # Clone this project.
 cd /YourPath/
-git clone -b dxn_0709_open https://code.alipay.com/multimodal/antmmf.git
+git clone https://code.alipay.com/multimodal/antmmf.git
 
 # Install the required packages.
 cd antmmf
@@ -27,35 +21,35 @@ pip install -r requirements.txt
 
 ## Dataset
 
-AntMMF supports the following public datasets for multi-modal pre-training and fine-tuning.
+CNVid-VTP supports the following public datasets for multi-modal pre-training and fine-tuning.
 - Pre-training datasets：
   - Image-text datasets: *e.g.*, `COCO`，`VG`，and `CC3M`.
-  - Video-text datasets: *e.g.*, `WebVid-2M`，`Howto100M`，and `CNVid-3.5M`(Chinese).
+  - Video-text datasets: *e.g.*, `WebVid-2M`，and `CNVid-3.5M`(Chinese).
 - Fine-tuning datasets：
-  - Cross-modal retrieval datasets: *e.g.*, `MSRVTT`，`DiDemo`，`MSVD`，and `VATEX`；
-  - Video qusetion-answering datasets: *e.g.*, `MSRVTT-QA`，and `MSVD-QA`；
-  - Multi-choice video qusetion-answering datasets: *e.g.*, `MSRVTT-MC-QA`.
+  - Cross-modal retrieval datasets: *e.g.*, `MSRVTT`，`DiDemo`，and `VATEX`；
 
 ## Performance Results
 
-`TODO`：Performance results are coming soon.
+Performance comparisons on three public Chinese/English datasets.
+
+![alt text](demo_figs/experiment_result.jpg)
 
 ## Quick Start
 
-AntMMF provides the following script for local test.
+CNVid-VTP provides the following script for local test.
 ```
-sh tests/scripts/local_test/coco_vg.local.sh
+sh prj/cnvid_vtp/scripts/local_test/coco_vg.local.sh
 ```
 
 ## Pre-Training
 
-AntMMF provides various pre-training scripts, please follow `tests/scripts/pretrain` for more information.
+CNVid-VTP provides various pre-training scripts, please follow `prj/cnvid_vtp/scripts/pretrain` for more information.
 
-The following shell command is an example to start the image-text pre-training on COCO-VG datasets.
+The following shell command is an example to start the video-text pre-training on the CNVid-3.5M dataset.
 
 ```
 python -m antmmf.utils.launch \
-    --nproc_per_node=8 --master_port=12371  prj/base_vtp/run.py \
+    --nproc_per_node=8 --master_port=12371  prj/cnvid_vtp/run.py \
     --config ${CONFIG} \                                
     training_parameters.distributed True \              
     training_parameters.run_type train \                
@@ -64,19 +58,22 @@ python -m antmmf.utils.launch \
     training_parameters.test_batch_size 64 \            
     optimizer_attributes.params.lr 5e-5 \               
     optimizer_attributes.params.weight_decay 1e-3 \     
-    training_parameters.enable_amp True \               
-    training_parameters.save_dir ${SAVE_DIR}/test      
+    training_parameters.enable_amp False \
+    training_parameters.save_dir ${SAVE_DIR}/test \
+    model_attributes.univl.hard_example_mining True \
+    model_attributes.univl.change_iter 5000 \
+    model_attributes.univl.change_rate 0.15 \ 
 ```
 
 ## Fine-Tuning
 
-AntMMF provides various pre-training scripts, please follow `tests/scripts/finetune` for more information.
+CNVid-VTP provides various pre-training scripts, please follow `prj/cnvid_vtp/scripts/finetune` for more information.
 
 The pipeline of fine-tuning is the same as pre-training.
 
 ## Inference
 
-AntMMF supports inference with a well pre-trained model, please follow `tests/scripts/finetune/mcvqa_msr_vtt_mc_qa_videoswin.sh` for more information.
+CNVid-VTP supports inference with a well pre-trained model.
 
 ## FAQ
 
