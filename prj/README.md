@@ -1,7 +1,7 @@
 # Ant Multi-Modal-Framework (AntMMF)
 蚂蚁自研多模态视频预训练框架。
 
-## Included Projects （包含的项目）
+## Included Projects （包含项目）
 
 AntMMF包含以下的工程项目：
 
