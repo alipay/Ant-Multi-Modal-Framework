@@ -12,7 +12,7 @@ task_attributes:
         annotations_loader: auto_split
         annotations:
           train:
-            - annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_train5m.jsonl
+            - annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_train3_5m.jsonl
           val: annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_val5k.jsonl
           test: annotations/CNVid_antmmf_pretrained_format_total_full_filterL3_val5k.jsonl
 

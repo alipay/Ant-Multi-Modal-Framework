@@ -42,11 +42,11 @@ class VideoMLMPretrainHeads(nn.Module):
         output = []
         # task1: Hierarchical Masked Language Modelling for caption
         # task1-Hier1: text encoder mlm for caption & ocr
-        # text_encoder_mlm_output = self.text_encoder_mlm(
-        #     encoder_output=text_enc_embed,
-        #     targets=text_lm_label_ids,
-        # )
-        # output.append(text_encoder_mlm_output)
+        text_encoder_mlm_output = self.text_encoder_mlm(
+            encoder_output=text_enc_embed,
+            targets=text_lm_label_ids,
+        )
+        output.append(text_encoder_mlm_output)
         # task1-Hier2: multi-modal transformer encoder mlm for caption
         if text_cross_embed is not None:
             transformer_mlm_output = self.transformer_mlm(
@@ -179,7 +179,11 @@ class UnivlForVideoPretraining(nn.Module):
         # MIL-NCE task: cal stage1 & stage2 mil-nce loss
         cap_input = cap_input + (caption_input,)
         vis_input = vis_input + (img_input,)
-        mil_nce_output = self.model_similarity(cap_input, vis_input)
+        if self.training and self.config.get("hard_example_mining", False):
+            incre_num = sample_list.incre_num
+            mil_nce_output = self.model_similarity(cap_input, vis_input, incre_num=incre_num)
+        else:
+            mil_nce_output = self.model_similarity(cap_input, vis_input)
         pretrain_output += [mil_nce_output]
 
         # clip-level output

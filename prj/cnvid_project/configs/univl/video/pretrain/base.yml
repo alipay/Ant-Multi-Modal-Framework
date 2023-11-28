@@ -167,6 +167,8 @@ model_attributes:
           with_pooler: false # shared pooler
 
     hard_example_mining: true
+    change_iter: 5000
+    change_rate: 0.15
     re_weight_method: "median"   # ["median", "None"]
     re_sample_method: "nearliest"    # ["top_k", "nearliest"]
 

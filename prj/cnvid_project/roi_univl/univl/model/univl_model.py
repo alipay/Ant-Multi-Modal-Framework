@@ -5,12 +5,9 @@ import torch
 
 from antmmf.common.registry import registry
 from antmmf.models.base_model import BaseModel
-from .univl_classification import UnivlBertForClassification
 from .univl_pretrain import UnivlForPretraining
-from .univl_video_cls import UnivlForVideoClassification
 from .univl_video_pretrain import UnivlForVideoPretraining
 from .univl_video_ret import UnivlForVideoTextRetrieval
-from .univl_video_multi_choice_qa import UnivlForVideoMultiChoiceQA
 
 
 @registry.register_model("univl")
@@ -21,16 +18,10 @@ class Univl(BaseModel):
     def build(self):
         if self.config.training_head_type == "pretraining":
             self.model = UnivlForPretraining(self.config)
-        elif self.config.training_head_type == "classification":
-            self.model = UnivlBertForClassification(self.config)
-        elif self.config.training_head_type == "video_text_classification":
-            self.model = UnivlForVideoClassification(self.config)
         elif self.config.training_head_type == "video_text_retrieval":
             self.model = UnivlForVideoTextRetrieval(self.config)
             # extract modality features for retrival evaluation
             self.get_l2_input = self.model.module.get_l2_input
-        elif self.config.training_head_type == "video_multi_choice_qa":
-            self.model = UnivlForVideoMultiChoiceQA(self.config)
         elif self.config.training_head_type == "video_pretraining":
             self.model = UnivlForVideoPretraining(self.config)
 

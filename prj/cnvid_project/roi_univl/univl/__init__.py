@@ -8,17 +8,13 @@ from .pretrain_video_text import (
     UnivlDatasetBuilder as PretrainVideoTextUnivlDatasetBuilder,
 )
 from .video_text import (
-    ClsUnivlDatasetBuilder,
-    McQAUnivlDatasetBuilder,
     RetUnivlDatasetBuilder,
 )
 from .model import Univl
 
 __all__ = [
     "VideoProcessor",
-    "ClsUnivlDatasetBuilder",
     "RetUnivlDatasetBuilder",
-    "McQAUnivlDatasetBuilder",
     "PretrainImgTextUnivlDatasetBuilder",
     "PretrainVideoTextUnivlDatasetBuilder",
     "UnivlTask",

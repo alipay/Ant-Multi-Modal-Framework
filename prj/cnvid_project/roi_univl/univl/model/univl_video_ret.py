@@ -12,6 +12,7 @@ from antmmf.utils.general import get_package_version
 from .moco_utils import MocoUtils
 from .univl_video_base import UnivlVideoBase
 
+import random
 
 class UnivlForVideoTextRetrieval(nn.Module):
     def __init__(self, config):
@@ -29,6 +30,13 @@ class UnivlForVideoTextRetrieval(nn.Module):
         self.with_moco = getattr(self.config, "with_moco", True)
         if self.with_moco:
             self.moco_utils = None
+
+        if self.config.get("hard_example_mining", False):
+            print("\nHard Example Mining!")
+            print("Change iter: %d" % self.config.change_iter)
+            print("Change rate: %.2f" % self.config.change_rate)
+            print("Re-Sample Strategy: %s" % self.config.re_sample_method)
+            assert self.config.re_sample_method in ["top_k", "nearliest"]
 
     def _cross_similarity(
         self, sequence_output, visual_output, attention_mask, video_mask, num_clips
@@ -386,7 +394,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
         output_dict["l1_simi"] = self.reduce_clips(l1_simi, "l1")
         return output_dict
 
-    def forward_stage2(self, vis_input, cap_input, output_dict=None, cal_cross=True):
+    def forward_stage2(self, vis_input, cap_input, output_dict=None, cal_cross=True, incre_num=0.0):
         output_dict = dict(losses={}) if output_dict is None else output_dict
         batch_size = cap_input[-2]
         # task2: cross-modal retrival
@@ -396,9 +404,17 @@ class UnivlForVideoTextRetrieval(nn.Module):
             l1_simi_clone = (
                 output_dict["l1_simi"].clone().detach()
             )  # 不需要传递L1 simi matrix的梯度
-            l2_simi = self._cross_similarity_hard_mining(
-                vis_input, cap_input, l1_simi_clone
-            )
+            rand_num = torch.randint(low=0, high=100, size=[1], device=l1_simi_clone.device, dtype=l1_simi_clone.dtype)
+            rand_num = gather_tensor(rand_num, method="cat", back_gradient=True, pad_tensors=True)  # gather vis
+            rand_num = torch.mean(rand_num).item() / 100.0
+            if rand_num < incre_num:
+                l2_simi = self._cross_similarity_hard_mining(
+                    vis_input, cap_input, l1_simi_clone
+                )
+                # print("\nrand v.s. cur = %.2f < %.2f, hard example mining!\n"%(rand_num, incre_num))
+            else:
+                l2_simi = self.get_simi_logits(vis_input, cap_input, "l2", cal_cross)
+                # print("\nrand v.s. cur = %.2f > %.2f, normal L2!\n" % (rand_num, incre_num))
         else:
             l2_simi = self.get_simi_logits(vis_input, cap_input, "l2", cal_cross)
         if cal_cross and l2_simi.size(0) == l2_simi.size(1):
@@ -442,7 +458,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
 
         return output_dict
 
-    def forward_stage(self, cap_input, vis_input, cal_cross=True):
+    def forward_stage(self, cap_input, vis_input, cal_cross=True, incre_num=0.0):
         output_dict = None
         if "stage1" in self.config.training_stage:
             output_dict = self.forward_stage1(
@@ -450,7 +466,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
             )
         if "stage2" in self.config.training_stage:
             output_dict = self.forward_stage2(
-                vis_input, cap_input, output_dict, cal_cross=cal_cross
+                vis_input, cap_input, output_dict, cal_cross=cal_cross, incre_num=incre_num
             )
         return output_dict
 
