@@ -1,6 +1,6 @@
-# CNVid Video-Text Pre-training （CNVid-VTP）[CVPR-2022]
+# CNVid-VTP 训练代码指南
 
-该子代码库为基准的多模态视频预训练代码库。
+该子代码库为CNVid-3.5M论文的配套训练代码指南。
 
 ## Installation （安装指南）
 
@@ -19,10 +19,6 @@ cd antmmf
 pip install -r requirements.txt
 ```
 
-- CNVid-VTP支持通过docker启动，具体详见`\docker`文档。
-
-`TODO`：docker文档和相关环境整理中，后续会对外进行发布。
-
 ## Dataset (数据集)
 
 CNVid-VTP支持在以下的公开数据集上进行预训练或微调操作：
@@ -34,9 +30,9 @@ CNVid-VTP支持在以下的公开数据集上进行预训练或微调操作：
 
 ## Performance Results （结果指标）
 
-CNVid-VTP在多个公开视频理解数据集上的结果如下所示：
+CNVid-VTP在多个中英文公开视频理解数据集上的结果如下所示：
 
-`TODO`：结果指标待后续模型对外披露后，再补充。
+![alt text](demo_figs/experiment_result.jpg)
 
 ## Quick Start （快速启动）
 
@@ -54,9 +50,9 @@ CNVid-VTP提供了多个数据集上的预训练脚本，具体详见`prj/cnvid_
 
 下面以在CNVid中文视频文本数据集上预训练为例，展示CNVid-VTP的预训练流程：
 
-- 下载COCO+VG数据集
+- 下载CNVid数据集
 - 修改prj/cnvid_vtp/configs/univl/video/pretrain/coco_vg_videoswin.yml中的`data_root_dir`字段
-- 运行tests/scripts/pretrain/coco_vg_videoswin.sh脚本，其中一些重要字段的含义是：
+- 运行prj/cnvid_vtp/scripts/pretrain/CN_cnvid_pt_videoswin.sh脚本，其中一些重要字段的含义是：
 
 ```
 python -m antmmf.utils.launch \
@@ -65,12 +61,17 @@ python -m antmmf.utils.launch \
     training_parameters.distributed True \              # 是否进行分布式数据读取和训练
     training_parameters.run_type train \                # 当前运行状态（train->训练，predict->测试）    
     training_parameters.restart True \                  # 是否重新开始训练（False的话会重置训练轮数）
+    task_attributes.univl_task.dataset_attributes.video_text_pretrain.train_ensemble_n_clips 4 \  # 训练时每个视频的抽帧数
+    task_attributes.univl_task.dataset_attributes.video_text_pretrain.test_ensembel_n_clips 4 \   # 测试时每个视频的抽帧数
     training_parameters.batch_size 128 \                # 训练size
     training_parameters.test_batch_size 64 \            # 测试size
     optimizer_attributes.params.lr 5e-5 \               # 学习率
     optimizer_attributes.params.weight_decay 1e-3 \     # 学习率衰减率
-    training_parameters.enable_amp True \               # 是否开启混合精度训练
+    training_parameters.enable_amp False \              # 是否开启混合精度训练
     training_parameters.save_dir ${SAVE_DIR}/test       # 训练结果保存地址
+    model_attributes.univl.hard_example_mining True \   # 是否使用难例挖掘
+    model_attributes.univl.change_iter 5000 \           # 课程学习的迭代步长
+    model_attributes.univl.change_rate 0.15 \           # 课程学习的迭代步幅
 ```
 
 ## Fine-Tuning （微调）
@@ -81,7 +82,7 @@ CNVid-VTP提供了多个数据集上的微调脚本，具体详见`prj/cnvid_vtp
 
 ## Inference （推理）
 
-CNVid-VTP支持使用已训练/微调好的模型进行测试，测试的脚本可类比`tests/scripts/finetune/mcvqa_msr_vtt_mc_qa_videoswin.sh`文件。
+CNVid-VTP支持使用已训练/微调好的模型进行测试。
 
 注意在测试时，须将`training_parameters.run_type`字段置为`predict`，
 并且`training_parameters.resume_file`须指向一个已充分收敛的模型。
