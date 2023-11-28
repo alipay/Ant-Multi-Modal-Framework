@@ -549,16 +549,24 @@ class BaseTrainer:
             ):
                 self.profile("Batch load time")
                 self.current_iteration += 1
-                if self.config.model_attributes.univl.get("hard_example_mining", False):
+                if (
+                    self.config.model_attributes.univl.get("hard_example_mining", False)
+                    and self.config.model_attributes.univl.get("change_iter", None)
+                    is not None
+                ):
                     change_iter = self.config.model_attributes.univl.change_iter
                     change_rate = self.config.model_attributes.univl.change_rate
-                    thre_num = int(self.current_iteration/change_iter)
+                    thre_num = int(self.current_iteration / change_iter)
                     thre_rate = min(thre_num * change_rate, 1.0)
                     if thre_num * change_iter == self.current_iteration:
                         str = "\n"
-                        str += ("---"*20)
-                        str += ("\ncur iter: %d (%d), cur_rate: %.2f\n"%(self.current_iteration, change_iter, thre_rate))
-                        str += ("---" * 20)
+                        str += "---" * 20
+                        str += "\ncur iter: %d (%d), cur_rate: %.2f\n" % (
+                            self.current_iteration,
+                            change_iter,
+                            thre_rate,
+                        )
+                        str += "---" * 20
                         print(str)
                     batch.add_field("incre_num", thre_rate)
                 report, _, _ = self._forward_pass(

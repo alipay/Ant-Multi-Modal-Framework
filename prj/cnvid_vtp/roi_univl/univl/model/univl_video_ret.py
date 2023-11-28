@@ -14,6 +14,7 @@ from .univl_video_base import UnivlVideoBase
 
 import random
 
+
 class UnivlForVideoTextRetrieval(nn.Module):
     def __init__(self, config):
         super().__init__()
@@ -394,7 +395,9 @@ class UnivlForVideoTextRetrieval(nn.Module):
         output_dict["l1_simi"] = self.reduce_clips(l1_simi, "l1")
         return output_dict
 
-    def forward_stage2(self, vis_input, cap_input, output_dict=None, cal_cross=True, incre_num=0.0):
+    def forward_stage2(
+        self, vis_input, cap_input, output_dict=None, cal_cross=True, incre_num=0.0
+    ):
         output_dict = dict(losses={}) if output_dict is None else output_dict
         batch_size = cap_input[-2]
         # task2: cross-modal retrival
@@ -404,8 +407,16 @@ class UnivlForVideoTextRetrieval(nn.Module):
             l1_simi_clone = (
                 output_dict["l1_simi"].clone().detach()
             )  # 不需要传递L1 simi matrix的梯度
-            rand_num = torch.randint(low=0, high=100, size=[1], device=l1_simi_clone.device, dtype=l1_simi_clone.dtype)
-            rand_num = gather_tensor(rand_num, method="cat", back_gradient=True, pad_tensors=True)  # gather vis
+            rand_num = torch.randint(
+                low=0,
+                high=100,
+                size=[1],
+                device=l1_simi_clone.device,
+                dtype=l1_simi_clone.dtype,
+            )
+            rand_num = gather_tensor(
+                rand_num, method="cat", back_gradient=True, pad_tensors=True
+            )  # gather vis
             rand_num = torch.mean(rand_num).item() / 100.0
             if rand_num < incre_num:
                 l2_simi = self._cross_similarity_hard_mining(
@@ -466,7 +477,11 @@ class UnivlForVideoTextRetrieval(nn.Module):
             )
         if "stage2" in self.config.training_stage:
             output_dict = self.forward_stage2(
-                vis_input, cap_input, output_dict, cal_cross=cal_cross, incre_num=incre_num
+                vis_input,
+                cap_input,
+                output_dict,
+                cal_cross=cal_cross,
+                incre_num=incre_num,
             )
         return output_dict
 

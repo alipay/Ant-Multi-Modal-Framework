@@ -181,7 +181,9 @@ class UnivlForVideoPretraining(nn.Module):
         vis_input = vis_input + (img_input,)
         if self.training and self.config.get("hard_example_mining", False):
             incre_num = sample_list.incre_num
-            mil_nce_output = self.model_similarity(cap_input, vis_input, incre_num=incre_num)
+            mil_nce_output = self.model_similarity(
+                cap_input, vis_input, incre_num=incre_num
+            )
         else:
             mil_nce_output = self.model_similarity(cap_input, vis_input)
         pretrain_output += [mil_nce_output]
@@ -292,8 +294,8 @@ class UnivlForVideoPretraining(nn.Module):
 
         return pretrain_output
 
-    def model_similarity(self, cap_input, vis_input):
-        mil_nce_output = self.model.forward_stage(cap_input, vis_input, True)
+    def model_similarity(self, cap_input, vis_input, incre_num=0.0):
+        mil_nce_output = self.model.forward_stage(cap_input, vis_input, True, incre_num=incre_num)
 
         def cal_ret_metric(x):
             # TODO:here is cpu copy and cuda cudaStreamSynchronize,replace it with pure torch

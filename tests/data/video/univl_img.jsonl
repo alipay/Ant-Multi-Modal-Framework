@@ -1,3 +1,6 @@
 {"caption": "a person is connecting something to system", "clip_name": "dog.jpg", "sen_id": 0, "label": 1, "type": "image"}
-{"caption": "the system is connected by a person", "clip_name": "img_00001.jpg", "sen_id": 1, "label": 2, "type": "image"}
-{"caption": "a little girl does gymnastics", "clip_name": "zidane.jpg", "sen_id": 0, "label": 0, "type": "image"}
+{"caption": "the system is connected by a person", "clip_name": "dog.jpg", "sen_id": 1, "label": 2, "type": "image"}
+{"caption": "a little girl does gymnastics", "clip_name": "dog.jpg", "sen_id": 2, "label": 0, "type": "image"}
+{"caption": "a little girl does gymnastics", "clip_name": "dog.jpg", "sen_id": 3, "label": 0, "type": "image"}
+{"caption": "a little girl does gymnastics", "clip_name": "dog.jpg", "sen_id": 4, "label": 0, "type": "image"}
+{"caption": "a little girl does gymnastics", "clip_name": "dog.jpg", "sen_id": 5, "label": 0, "type": "image"}
