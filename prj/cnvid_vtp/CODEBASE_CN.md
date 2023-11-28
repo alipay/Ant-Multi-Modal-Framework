@@ -68,7 +68,7 @@ python -m antmmf.utils.launch \
     optimizer_attributes.params.lr 5e-5 \               # 学习率
     optimizer_attributes.params.weight_decay 1e-3 \     # 学习率衰减率
     training_parameters.enable_amp False \              # 是否开启混合精度训练
-    training_parameters.save_dir ${SAVE_DIR}/test       # 训练结果保存地址
+    training_parameters.save_dir ${SAVE_DIR}/test \     # 训练结果保存地址
     model_attributes.univl.hard_example_mining True \   # 是否使用难例挖掘
     model_attributes.univl.change_iter 5000 \           # 课程学习的迭代步长
     model_attributes.univl.change_rate 0.15 \           # 课程学习的迭代步幅
