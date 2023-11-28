@@ -2,23 +2,17 @@
 
 This codebase is now mainly used for multi-modal image/video pre-training.
 
-## Lincense
-
-The lincense of the AntMMF project is CC BY 4.0  (https://creativecommons.org/licenses/by/4.0/).
-
-Please first LICENSE.txt. You must not use the content in this project if you do not agree to the terms, legal disclaimer, and license outlined in these files.
-
 ## Installation
 
 - Please follow the forward steps to initialize the environment of the AntMMF.
 ```
 # Build a new environment.
-conda create -n antmmf python=3.8
-source activate antmmf
+conda create -n base-vtp python=3.8
+source activate base-vtp
 
 # Clone this project.
 cd /YourPath/
-git clone -b dxn_0709_open https://code.alipay.com/multimodal/antmmf.git
+git clone https://code.alipay.com/multimodal/antmmf.git
 
 # Install the required packages.
 cd antmmf
