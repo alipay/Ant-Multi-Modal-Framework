@@ -2,11 +2,11 @@
 
 This repository contains the dataset, codebase, and benchmarks for our paper: <[CNVid-3.5M: Build, Filter, and Pre-train the Large-scale Public Chinese Video-text Dataset](https://openaccess.thecvf.com/content/CVPR2023/papers/Gan_CNVid-3.5M_Build_Filter_and_Pre-Train_the_Large-Scale_Public_Chinese_Video-Text_CVPR_2023_paper.pdf)>, which has been accepted by CVPR 2023.
 
-![alt text](demo_figs/teaser_figure.jpg)
+![alt text](prj/cnvid_vtp/demo_figs/teaser_figure.jpg)
 
 ## IMPORTANT!
 
-Please first check [TERMS.md](TERMS.md), [LEGAL.md](LEGAL.md), and [LICENSE](LICENSE). You must not use the content in this dataset if you do not agree to the terms, legal disclaimer, and license outlined in these files.
+Please first check [TERMS.md](prj/cnvid_vtp/TERMS.md), [LEGAL.md](LEGAL.md), and [LICENSE](LICENSE). You must not use the content in this dataset if you do not agree to the terms, legal disclaimer, and license outlined in these files.
 
 We note that we do not own the copyright to any of the collected data. The distribution of identities and activities in the CNVid-3.5M dataset may not be representative of the global human population and the diversity in society. Please be careful of unintended societal, gender, racial, and other biases when training or deploying models trained on this data.
 
