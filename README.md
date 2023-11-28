@@ -15,8 +15,8 @@
 
 本项目作为底层代码库，是如下项目的底层依赖，包括：
 
-- SNP-S3						# 多模态预训练模型【TCSVT，CCF-B】
-- CNVid-3.5M        # 中文多模态预训练模型 & 中文视频文本数据集 【CVPR-23，CCF-A】
+- SNP-S3: 多模态预训练模型【TCSVT，CCF-B】
+- CNVid-3.5M: 中文多模态预训练模型 & 中文视频文本数据集 【CVPR-23，CCF-A】
 
 ## Introduction （介绍）
 
