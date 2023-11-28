@@ -2,12 +2,12 @@ export PYTHONPATH=`pwd`:$PYTHONPATH
 export PYTORCH_TRANSFORMERS_CACHE='/YourPath/'
 export TORCH_HOME='/YourPath/'
 
-CONFIG=prj/base_vtp/configs/univl/video/pretrain/coco_vg_videoswin.yml
+CONFIG=prj/cnvid_vtp/configs/univl/video/pretrain/EN_coco_vg_cc_videoswin.yml
 SAVE_DIR=/YourPath/
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python -m antmmf.utils.launch \
-    --nproc_per_node=8 --master_port=12371  prj/base_vtp/run.py \
+    --nproc_per_node=8 --master_port=12371  prj/cnvid_vtp/run.py \
     --config ${CONFIG} \
     training_parameters.distributed True \
     training_parameters.run_type train \
