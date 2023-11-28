@@ -22,12 +22,6 @@ Check [DATASET.md](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main
 
 Check [CODEBASE.md (中文)](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/prj/cnvid_vtp/CODEBASE_CN.md) or [CODEBASE.md (English)](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/prj/cnvid_vtp/CODEBASE_EN.md) for instructions of codebase downloading and model pre-training (CNVid-3.5M).
 
-## Benchmark
-
-Check [BENCHMARK.md](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/prj/cnvid_vtp/BENCHMARK.md) for instructions of benchmark downloading and model fine-tuning (CNVid-3.5M).
-
-We have already prepared the benchmark, but we still need some time to obtain the external disclosure authorization from our group. All benchmarks are planned to be published in January 2024.
-
 ## Citation
 
 If you find CNVid-3.5M useful, please consider citing the following paper:
