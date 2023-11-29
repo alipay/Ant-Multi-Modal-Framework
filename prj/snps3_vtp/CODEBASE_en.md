@@ -1,6 +1,6 @@
 # SNP-S3 Video-Text Pre-training （SNP-S3-VTP）
 
-This codebase is now mainly used for multi-modal fine-grained image/video pre-training.
+This codebase is now mainly used for multi-modal fine-grained image/video pre-training of SNP-S3.
 
 ## Installation
 
