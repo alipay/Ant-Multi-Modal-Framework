@@ -1,0 +1,152 @@
+task_attributes:
+  univl_task:
+    dataset_size_proportional_sampling: true
+    dataset_attributes:
+      video_text_retrieval:
+        pretraining: True # indicate dataset is built for pretraining
+        data_root_dir: ../tests/data/video
+
+        annotations:
+          train: msrvtt_train.jsonl
+          val: msrvtt_train.jsonl
+          test: msrvtt_test.jsonl
+
+        use_videos: True
+        train_ensemble_n_clips: 8
+        test_ensembel_n_clips: 2
+        num_frm: 1  # sample frames of each clip
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: data/mp4
+          val: data/mp4
+          test: data/mp4
+
+        processors: &processors
+          train_frame_processor:
+            type: custom_transforms
+            params:
+              mode: sequential
+              transforms:
+                - type: ImageLongsideScaleAndPad
+                  params:
+                    max_size: 448
+                    random_scale: true
+                    pad: false
+                - type: GroupNormalize
+                  params: # detr mean/std
+                    mean: [0.485, 0.456, 0.406]
+                    std: [0.229, 0.224, 0.225]
+
+          test_frame_processor:
+            type: custom_transforms
+            params:
+              mode: sequential
+              transforms:
+                - type: ImageLongsideScaleAndPad
+                  params:
+                    max_size: 448
+                    random_scale: false
+                    pad: false
+                - type: GroupNormalize
+                  params: # detr mean/std
+                    mean: [0.485, 0.456, 0.406]
+                    std: [0.229, 0.224, 0.225]
+
+          caption_processor: &caption_processor
+            type: masked_bert_tokenizer
+            params:
+              max_seq_length: 30 # max_length for each text field
+              mask_probability: 0
+              trim_start_token: false # not output start token id, because text info is appended to image info in later encoding stage
+              tokenizer_config:
+                type: bert-base-uncased
+                params:
+                  model_type: bert
+                  do_lower_case: true
+              preprocessor:
+                type: simple_sentence
+                params: {}
+
+model_attributes:
+  univl:
+    training_head_type: video_text_retrieval
+    arch_type: 'univl'
+    training_stage: stage1+stage2
+    encoder_lr_decay: 0.01
+
+    hidden_size: &model_size 768
+    half_model_size: &half_model_size 384
+
+    with_text_encoder: true
+    text_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-uncased
+        # bert-base-chinese related params
+        num_hidden_layers: 12 # use three layer of bert
+        vocab_size: 30522
+        num_segments: 2
+        hidden_size: 768
+
+    with_img_embeddings: true
+    img_embeddings:
+      type: ClipVisualEmbedding
+      params:
+        max_position_embeddings: 50
+        num_pos_feats: 768
+
+    with_cross_encoder: true
+    cross_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: false
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-uncased
+        # bert-base-chinese related params
+        num_hidden_layers: 3 # use three layer of bert
+        vocab_size: 30522
+        num_segments: 2
+        hidden_size: 768
+
+    metrics:
+      - type: global_retrieval_recall
+        params:
+          simi_logit_key: ['l1_simi', 'l2_simi']
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-4
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  trainer: retrieval_trainer
+  clip_norm_mode: all
+  clip_gradients: true
+  max_grad_l2_norm: 5.0
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_steps: # 12 epoch
+    - 15000
+  use_warmup: false
+  warmup_factor: 0.1
+  warmup_iterations: 1000
+  max_iterations: 25000
+  patience: 1000000
+  batch_size: 160
+  test_batch_size: 160
+  num_workers: 5
+  task_size_proportional_sampling: true
+  monitored_metric: val/l2_simi_t2v-mean_recall
+  metric_minimize: false
+  report_format: csv
+  snapshot_interval: 2500
+  log_interval: 500
+  max_ckpt_num: 10

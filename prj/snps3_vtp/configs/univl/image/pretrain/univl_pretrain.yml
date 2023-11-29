@@ -1,0 +1,261 @@
+task_attributes:
+  univl_task:
+    dataset_size_proportional_sampling: true
+    dataset_attributes:
+      univl_dataset:
+        pretraining: True # indicate dataset is built for pretraining
+        data_root_dir: ../tests/data/roi_data
+
+        annotations:
+          train: dev.jsonl
+          val: dev.jsonl
+          test: dev.jsonl
+
+        use_images: True
+        images:
+          train: imgs
+          val: imgs
+          test: imgs
+
+        use_ocrs: True
+        ocrs:
+          train: ocrs
+          val: ocrs
+          test: ocrs
+
+        use_features: True
+        only_features_info: True # return bbox info
+        fast_read: False
+        features:
+          train: rois.lmdb
+          val: rois.lmdb
+          test: rois.lmdb
+
+
+        processors: &processors
+          ocr_processor: &ocr_processor # tokenizer for cor
+            type: masked_layoutlm_tokenizer
+            params:
+              max_seq_length: 50
+              # 图像输出特征数目+最大文本长度+2
+              # 总长度如果取大了，可能会有OOM
+              mask_probability: 0.15
+              trim_start_token: true # not output start token id
+              random_truncate: true
+              tokenizer_config:
+                type: bert-base-chinese
+                params:
+                  do_lower_case: true
+              preprocessor:
+                type: simple_word
+                params: {}
+
+          caption_processor: &caption_processor
+            type: masked_bert_tokenizer
+            params:
+              max_seq_length: 10 # max_length for each text field
+              mask_probability: 0.15
+              trim_start_token: false # not output start token id, because text info is appended to image info in later encoding stage
+              tokenizer_config:
+                type: bert-base-chinese
+                params:
+                  model_type: bert
+                  do_lower_case: true
+              preprocessor:
+                type: simple_sentence
+                params: {}
+
+          train_detr_processor:
+            type: detr_processor
+            params:
+              scales: [480, 512, 544, 576, 608, 640, 672, 704, 736, 768, 800]
+              max_size: 1333
+              # not important, since univl will remove padding latter
+
+          test_detr_processor: &test_detr_processor
+            type: detr_processor
+            params:
+              scales: [800]
+              max_size: 1333
+
+model_attributes:
+  univl:
+    training_head_type: pretraining
+    pretrained: true
+
+    hidden_size: &model_size 256
+    half_model_size: &half_model_size 128
+
+
+    with_text_encoder: true
+    text_encoder:
+      type: PretrainedTransformerEncoder
+      params:
+        gradient_checkpointing: true
+        pretrained: true # initialize with BERT pretrained weights
+        model_type: bert
+        bert_model_name: bert-base-chinese
+        # bert-base-chinese related params
+        num_hidden_layers: 3 # use three layer of bert
+        vocab_size: 21128
+        num_segments: 2
+        hidden_size: &text_encoder_hidden 768
+
+
+    with_image_encoder: true
+    image_encoder:
+      type: DetrImageEncoder
+      params:
+        gradient_checkpointing: [true, false, false, false]
+        pretrained: true
+        encoder_type: resnet50
+        freeze: false
+        pool_type: avg
+        num_output_features: -1
+        freeze_bn: true
+        replace_stride_with_dilation: [False, False, False]
+        with_position_embedding: false
+        position_embedding:
+          type: sine # ['sine', 'learned']
+          params:
+            num_pos_feats: *half_model_size # should be half of transformer hidden dim
+            normalize: true
+        output_channels: *model_size # should be transoformer hidden dim
+
+
+    with_layout_embedding: true
+    global_layout_embeddings:
+      type: UnivlLayoutEmbedding
+      params:
+        hidden_size: *model_size
+        v_hidden_size: *model_size
+        max_2d_position_embeddings: 1024
+        max_position_embeddings: 2048
+        has_visual_segment_embedding: true
+
+    processor:
+      ocr_processor: *ocr_processor
+
+    transformer_config:
+      encoder_config:
+        type: TransformerEncoder
+        params:
+          type: PositionEnhancedEncoderLayer
+          num_layers: 6
+          use_checkpoint: true
+          params:
+            d_model: *model_size
+            nhead: 8
+            dim_feedforward: 1024
+            normalize_before: True
+
+      decoder_config:
+        type: TransformerDecoder
+        params:
+          type: PositionEnhancedDecoderLayer
+          num_layers: 3
+          use_checkpoint: false # shared decoder
+          params:
+            d_model: *model_size
+            nhead: 8
+            dim_feedforward: 1024
+            normalize_before: True
+            return_intermediate: True
+#            generation_query_dim: null
+            generation_query_dim: *text_encoder_hidden
+
+      decoding_type: detr+generation
+
+    transformer_heads:
+      detr_head:
+        type: DETR
+        params:
+          hidden_size: *model_size
+          # num_categories: 91+1, max_class_id: 91(bg/padded value), fg range:[0, 90]
+          num_classes: 91
+          aux_loss: True
+
+          set_cost_class: 1.0
+          set_cost_bbox: 5.0
+          set_cost_giou: 2.0
+
+          dice_loss_coef: 1.0
+          bbox_loss_coef: 5.0
+          giou_loss_coef: 2.0
+          eos_coef: 0.1 # coco has average 10 objects/img, 0.1=10/100(total queries)
+
+          dec_layers: 3
+
+
+          losses:
+            - labels
+            - boxes
+            - cardinality
+
+
+      generation_head:
+        type: MLM
+        params:
+          vocab_size: 21128
+          in_dim: *model_size
+          hidden_size: 768 # need to tie weights with BERT
+          loss_name: generation_loss
+          metric_name: generation_acc
+
+
+    pretraining_heads:
+      transformer_mlm:
+        type: MLM
+        params:
+          vocab_size: 21128
+          in_dim: *model_size
+          hidden_size: 768 # need to tie weights with BERT
+          loss_name: masked_lm_loss
+          metric_name: masked_lm_acc
+
+      text_encoder_mlm: # duplicate mlm modules will not cause much cost due to tied-weights
+        type: MLM
+        params:
+          vocab_size: 21128
+          in_dim: 768
+          hidden_size: 768 # need to tie weights with BERT
+          loss_name: masked_lm_text_encoder_loss
+          metric_name: masked_lm_text_encoder_acc
+
+      itm:
+        type: ITM
+        params:
+          hidden_size: *model_size
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-4
+    weight_decay: 1e-4
+
+
+training_parameters:
+    clip_norm_mode: all
+    clip_gradients: true
+    max_grad_l2_norm: 1.0
+    lr_scheduler: true
+    lr_ratio: 0.1
+    lr_steps: # 200 epoch
+    - 200000
+    - 500000
+    use_warmup: false
+    warmup_factor: 0.1
+    warmup_iterations: 2000
+    max_iterations: 20
+    max_epochs: 300
+    patience: 1000000
+    batch_size: 2
+    num_workers: 0
+    task_size_proportional_sampling: true
+    monitored_metric: total_loss
+    metric_minimize: true
+    report_format: csv
+    snapshot_interval: 10
+    log_interval: 2
+    max_ckpt_num: 10
+
