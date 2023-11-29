@@ -72,15 +72,14 @@ SNP-S3 provides various pre-training scripts, please follow `prj/snps3_vtp/scrip
 
 The pipeline of fine-tuning is the same as pre-training.
 
+## Inference
+
+SNP-S3 supports inference with a well pre-trained model, please follow `prj/snps3_vtp/scripts/finetune/multi_choice_qa/msr_vtt_mc_qa_videoswin.sh` for more information.
 
 ## Significant Semantic Mining
 
 We provide the Significant Semantic Mining function to automatically obtain Significant Words within the dataset, 
 the pipeline is available at `prj/snps3_vtp/auxiliary_files/generate_ss_word_json`.
 
-
-## Inference
-
-SNP-S3 supports inference with a well pre-trained model, please follow `prj/snps3_vtp/scripts/finetune/multi_choice_qa/msr_vtt_mc_qa_videoswin.sh` for more information.
 
 ## FAQ
