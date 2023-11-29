@@ -51,7 +51,7 @@ CNVid-VTP提供了多个数据集上的预训练脚本，具体详见`prj/cnvid_
 下面以在CNVid中文视频文本数据集上预训练为例，展示CNVid-VTP的预训练流程：
 
 - 下载CNVid数据集
-- 修改prj/cnvid_vtp/configs/univl/video/pretrain/coco_vg_videoswin.yml中的`data_root_dir`字段
+- 修改prj/cnvid_vtp/configs/univl/video/pretrain/CN_video_videoswin.yml中的`data_root_dir`字段
 - 运行prj/cnvid_vtp/scripts/pretrain/CN_cnvid_pt_videoswin.sh脚本，其中一些重要字段的含义是：
 
 ```

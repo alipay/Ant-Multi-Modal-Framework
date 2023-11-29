@@ -47,7 +47,7 @@ SNP-S3-VTP的消融实验结果如下所示：
 SNP-S3-VTP提供了本地测试脚本，可以快速进行安装正确性验证：
 ```
 # 终端运行
-sh prj/snps3_vtp/scripts/local_test/coco_vg.local.sh
+sh prj/snps3_vtp/scripts/local_test/snps3_quick_test.sh
 ```
 
 ## Pre-Training （预训练）
