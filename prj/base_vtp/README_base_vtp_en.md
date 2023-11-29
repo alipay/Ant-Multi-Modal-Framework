@@ -1,10 +1,10 @@
-# Ant Multi-Modal-Framework (AntMMF)
+# Base Video-Text Pre-training （Base-VTP）
 
 This codebase is now mainly used for multi-modal image/video pre-training.
 
 ## Installation
 
-- Please follow the forward steps to initialize the environment of the AntMMF.
+- Please follow the forward steps to initialize the environment of the Base-VTP.
 ```
 # Build a new environment.
 conda create -n base-vtp python=3.8
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ## Dataset
 
-AntMMF supports the following public datasets for multi-modal pre-training and fine-tuning.
+Base-VTP supports the following public datasets for multi-modal pre-training and fine-tuning.
 - Pre-training datasets：
   - Image-text datasets: *e.g.*, `COCO`，`VG`，and `CC3M`.
   - Video-text datasets: *e.g.*, `WebVid-2M`，`Howto100M`，and `CNVid-3.5M`(Chinese).
@@ -36,14 +36,14 @@ AntMMF supports the following public datasets for multi-modal pre-training and f
 
 ## Quick Start
 
-AntMMF provides the following script for local test.
+Base-VTP provides the following script for local test.
 ```
 sh prj/base_vtp/scripts/local_test/coco_vg.local.sh
 ```
 
 ## Pre-Training
 
-AntMMF provides various pre-training scripts, please follow `prj/base_vtp/scripts/pretrain` for more information.
+Base-VTP provides various pre-training scripts, please follow `prj/base_vtp/scripts/pretrain` for more information.
 
 The following shell command is an example to start the image-text pre-training on COCO-VG datasets.
 
@@ -64,13 +64,13 @@ python -m antmmf.utils.launch \
 
 ## Fine-Tuning
 
-AntMMF provides various pre-training scripts, please follow `prj/base_vtp/scripts/finetune` for more information.
+Base-VTP provides various pre-training scripts, please follow `prj/base_vtp/scripts/finetune` for more information.
 
 The pipeline of fine-tuning is the same as pre-training.
 
 ## Inference
 
-AntMMF supports inference with a well pre-trained model, please follow `prj/base_vtp/scripts/finetune/mcvqa_msr_vtt_mc_qa_videoswin.sh` for more information.
+Base-VTP supports inference with a well pre-trained model, please follow `prj/base_vtp/scripts/finetune/mcvqa_msr_vtt_mc_qa_videoswin.sh` for more information.
 
 ## FAQ
 

@@ -7,7 +7,7 @@ TEST_FINETUNE_SAVE_DIR=/YourPath/
 
 export CUDA_VISIBLE_DEVICES=0,1
 python -m antmmf.utils.launch \
-    --nproc_per_node=2 --master_port=12391 prj/base_vtp/run.py \
+    --nproc_per_node=2 --master_port=12391 prj/snps3_vtp/run.py \
     --config ${CONFIG} \
     training_parameters.distributed True \
     training_parameters.run_type train \

@@ -88,5 +88,3 @@ CNVid-VTP支持使用已训练/微调好的模型进行测试。
 并且`training_parameters.resume_file`须指向一个已充分收敛的模型。
 
 ## FAQ （问答）
-
-## Citations （引用）

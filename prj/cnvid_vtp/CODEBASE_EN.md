@@ -76,6 +76,3 @@ The pipeline of fine-tuning is the same as pre-training.
 CNVid-VTP supports inference with a well pre-trained model.
 
 ## FAQ
-
-## Citations
-
