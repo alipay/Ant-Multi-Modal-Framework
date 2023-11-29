@@ -44,15 +44,6 @@ class UnivlForVideoTextRetrieval(nn.Module):
                 HT_count_data = json.load(reader)
             self.word_rank_info = HT_count_data['rank']
             self.words_top_k = config.pretraining_heads.MASK_All_IWords_info.words_top_k
-            # 获得词根列表
-            lema_root_dir = config.pretraining_heads.MASK_All_IWords_info.vocab_lema_root_dir
-            with open(lema_root_dir, 'r') as reader:
-                self.lema_root_list = json.load(reader)
-
-            # 获得动名词映射
-            class_path = config.pretraining_heads.MASK_All_IWords_info.TACo_VPT_yingshe_file
-            with open(class_path, 'r') as reader:
-                self.TACo_yingshe_list = json.load(reader)
             self.num_chosen_word = config.pretraining_heads.MASK_All_IWords_info.Word_Chosen_Num
         '''Extra settings for SNP-S3'''
 
@@ -551,8 +542,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
                 else:
                     id_raw = lbl_id
                     raw_caption_input_ids[i][j] = sample_list.caption_lm_label_ids[i][j]
-                id_c = self.lema_root_list[id_raw]
-                if self.word_rank_info[id_c] <= self.words_top_k and self.TACo_yingshe_list[id_c] != -1:
+                if self.word_rank_info[id_raw] <= self.words_top_k:
                     IW_word_idx_piece.append(j)
                 elif id_raw not in [0, 101, 102, 103]:
                     other_word_idx_piece.append(j)

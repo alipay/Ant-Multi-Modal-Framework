@@ -663,16 +663,12 @@ class MaskedTokenProcessor(BaseProcessor):
             same_lema_word_dir = config.intra_VTM.vocab_same_lema_dir
             with open(same_lema_word_dir, 'r') as reader:
                 self.same_lema_list = json.load(reader)
-            # 获得词根列表
-            lema_root_dir = config.intra_VTM.vocab_lema_root_dir
-            with open(lema_root_dir, 'r') as reader:
-                self.lema_root_list = json.load(reader)
 
     def get_vocab_size(self):
         return len(self._tokenizer)
 
     '''intra_MLM for SNP-S3'''
-    def get_important_tag_list(self, tokens, need_more_word=True):
+    def get_important_tag_list(self, tokens):
         IW_word_tag = []
         IW_word_lists = []
         other_token_idx_list = []
@@ -681,13 +677,6 @@ class MaskedTokenProcessor(BaseProcessor):
             id_raw = self._tokenizer.convert_tokens_to_ids(tokens[i])
             if self.word_rank_info[id_raw] <= self.words_top_k:
                 IW_word_lists.append(i)
-            elif need_more_word:
-                id_c = self.lema_root_list[id_raw]
-                if self.word_rank_info[id_c] <= self.words_top_k and tokens[i] not in ["background", "backgrounds"]:
-                    IW_word_lists.append(i)
-                    tokens[i] = self._tokenizer.convert_ids_to_tokens(id_c)
-                else:
-                    other_token_idx_list.append(i)
             else:
                 other_token_idx_list.append(i)
             IW_word_tag.append(0)

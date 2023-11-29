@@ -2,7 +2,7 @@ export PYTHONPATH=`pwd`:$PYTHONPATH
 export PYTORCH_TRANSFORMERS_CACHE='/YourPath/'
 export TORCH_HOME='/YourPath/'
 
-CONFIG=prj/base_vtp/configs/univl/video/finetune_retrieval/msr_vtt_pvt.local.yml
+CONFIG=prj/snps3_vtp/configs/univl/video/pretrain/quick_test.yml
 TEST_FINETUNE_SAVE_DIR=/YourPath/
 
 export CUDA_VISIBLE_DEVICES=0,1
@@ -15,7 +15,6 @@ python -m antmmf.utils.launch \
     training_parameters.find_unused_parameters True \
     training_parameters.num_workers 10 \
     training_parameters.batch_size 2 \
-    model_attributes.univl.encoder_lr_decay 1.0 \
     optimizer_attributes.params.lr 1e-5 \
     training_parameters.save_dir ${TEST_FINETUNE_SAVE_DIR}/test \
     training_parameters.log_interval 20

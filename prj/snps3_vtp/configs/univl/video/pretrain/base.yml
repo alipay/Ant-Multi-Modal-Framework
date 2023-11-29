@@ -82,10 +82,9 @@ task_attributes:
                 params: {}
               #beg   MLM_IW_v3, OCC, VPT
               intra_VTM:
-                IW_MLM: False
+                IW_MLM: true
                 HT_words_count_file_dir: prj/snps3_vtp/auxiliary_files/count_reprocess_webvid.json
                 vocab_same_lema_dir: prj/snps3_vtp/auxiliary_files/vocab_simi_list_new.json
-                vocab_lema_root_dir: xxx/lema_id_new.json
                 words_top_k: 3000
               #end   MLM_IW_v3, OCC, VPT
 
@@ -174,10 +173,9 @@ model_attributes:
           hidden_size: 768
           with_pooler: false # shared pooler
 
-      Vision_Word_Matching: false
+      Vision_Word_Matching: true
       MASK_All_IWords_info:
         HT_words_count_file_dir: prj/snps3_vtp/auxiliary_files/count_reprocess_webvid.json
-        vocab_lema_root_dir: xxx/lema_id_new.json
         words_top_k: 3000
         Word_Chosen_Num: 3
         VWM_count_stage: "after"

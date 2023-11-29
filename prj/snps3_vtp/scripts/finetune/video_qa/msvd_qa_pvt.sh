@@ -2,13 +2,13 @@ export PYTHONPATH=`pwd`:$PYTHONPATH
 export PYTORCH_TRANSFORMERS_CACHE='/YourPath/'
 export TORCH_HOME='/YourPath/'
 
-CONFIG=prj/base_vtp/configs/univl/video/finetune_classification/univl_classification_for_msrvtt_qa_videoswin.yml
+CONFIG=prj/snps3_vtp/configs/univl/video/finetune_classification/msvd_qa_pvt.yml
 PRETRAINED_SAVE_DIR=/YourCheckpointPath/
-MSRVTT_FINETUNE_SAVE_DIR=/YourPath/
+MSVD_QA_FINETUNE_SAVE_DIR=/YourPath/
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python  -m antmmf.utils.launch \
-    --nproc_per_node=8 --master_port=12314 prj/base_vtp/run.py \
+    --nproc_per_node=8 --master_port=12314 prj/snps3_vtp/run.py \
     --config ${CONFIG} \
     training_parameters.distributed True \
     training_parameters.run_type train \
@@ -21,5 +21,5 @@ python  -m antmmf.utils.launch \
     training_parameters.test_batch_size 32 \
     model_attributes.univl.encoder_lr_decay 1.0 \
     optimizer_attributes.params.lr 1e-5 \
-    training_parameters.resume_file ${PRETRAINED_SAVE_DIR}/YourPath/xxx.ckpt \
-    training_parameters.save_dir ${MSRVTT_FINETUNE_SAVE_DIR}/test
+    training_parameters.resume_file ${MSVD_QA_FINETUNE_SAVE_DIR}/YourPath/xxx.ckpt \
+    training_parameters.save_dir ${MSVD_QA_FINETUNE_SAVE_DIR}/test

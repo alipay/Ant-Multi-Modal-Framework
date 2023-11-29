@@ -20,7 +20,7 @@ source activate antmmf
 
 # Clone this project.
 cd /YourPath/
-git clone -b dxn_0709_open https://code.alipay.com/multimodal/antmmf.git
+git clone https://code.alipay.com/multimodal/antmmf.git
 
 # Install the required packages.
 cd antmmf
