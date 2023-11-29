@@ -6,12 +6,12 @@ task_attributes:
   univl_task:
     dataset_attributes:
       video_text_retrieval:
-        data_root_dir: /YourPath/VATEX/kinetics-dataset/
+        data_root_dir: /YourPath/msvd/
 
         annotations:
-          train: vatex_retrieval/train.jsonl
-          val: vatex_retrieval/val_dedup.jsonl
-          test: vatex_retrieval/val_dedup.jsonl
+          train: msvd_retrieval/MSVD_train.jsonl
+          val: msvd_retrieval/MSVD_test.jsonl
+          test: msvd_retrieval/MSVD_test.jsonl
 
         train_ensemble_n_clips: 16 # 8 for full test
         test_ensembel_n_clips: 16 # 16 for full test
@@ -20,9 +20,9 @@ task_attributes:
         # support lmdb database for faster reading, convert video to lmdb:
         # prj/univl/scripts/lmdb_conversion.py
         videos:
-          train: .
-          val: .
-          test: .
+          train: YouTubeClips
+          val: YouTubeClips
+          test: YouTubeClips
 
         processors:
           train_frame_processor:
@@ -37,36 +37,25 @@ task_attributes:
               mode: val
               crop_size: 224
               aug_type: randaug
-          caption_processor:
-            type: masked_bert_tokenizer
-            params:
-              tokenizer_config:
-                type: bert-base-chinese
-
-model_attributes:
-  univl:
-    encoder_lr_decay: 1.0
-    text_encoder:
-      params:
-        bert_model_name: bert-base-chinese
-        vocab_size: 21128
-
-    cross_encoder:
-      params:
-        bert_model_name: bert-base-chinese
-        vocab_size: 21128
-
 
 optimizer_attributes:
   type: AdamW
   params:
-    lr: 1e-5
+    lr: 1e-6
     betas: [0.9, 0.98]
     weight_decay: 1e-4
 
+model_attributes:
+  univl:
+    encoder_lr_decay: 1.0
+
 training_parameters:
   batch_size: 128
-  test_batch_size: 128
+  test_batch_size: 32
+  max_iterations: 16000
+  snapshot_interval: 2000
+  lr_steps: # 12 epoch
+    - 8000
 
   load_pretrained: True
   pretrained_mapping:

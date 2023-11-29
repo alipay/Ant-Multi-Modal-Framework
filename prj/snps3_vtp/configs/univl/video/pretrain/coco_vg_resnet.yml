@@ -1,12 +1,12 @@
 includes:
 - ./base.yml
-- ./video_swin.yml # use videoswin as visual encoder
+- ../visual_encoder/resnet.yml
 
 task_attributes:
   univl_task:
     dataset_attributes:
       video_text_pretrain:
-        data_root_dir: /YourPath/
+        data_root_dir: /YourPath/public
 
         annotations:
           train:
@@ -32,17 +32,21 @@ task_attributes:
               max_seq_length: 30 # max_length for each text field
               mask_probability: 0.15
 
+model_attributes:
+  univl:
+    img_embeddings:
+      params:
+        pixel_random_sampling_size: 100
 
 # coco image + visual genome: 15.1 k images, 5.6M training image-text pairs
 training_parameters:
   lr_scheduler: true
   lr_ratio: 0.1
   lr_epochs: []
-  lr_steps:
-    - 110000
-  max_epochs: 30
+  lr_steps: # 12 epoch
+    - 150000
   use_warmup: true
   warmup_factor: 0.1
   warmup_iterations: 2000
-  max_iterations: 130000
+  max_iterations: 400000
   batch_size: 128

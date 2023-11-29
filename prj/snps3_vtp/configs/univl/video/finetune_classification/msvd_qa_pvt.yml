@@ -1,0 +1,64 @@
+includes:
+- ./univl_video_text_classification.yml
+- ../visual_encoder/pvt.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_classification:
+        data_root_dir: /YourPath/msvd/
+
+        annotations:
+          train: msvd_qa/msvd_train_qa.jsonl
+          val: msvd_qa/msvd_test_qa.jsonl
+          test: msvd_qa/msvd_test_qa.jsonl
+
+        train_ensemble_n_clips: 16 # 8 for full test
+        test_ensembel_n_clips: 16 # 16 for full test
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+        videos:
+          train: YouTubeClips
+          val: YouTubeClips
+          test: YouTubeClips
+
+        processors: &processors
+          caption_processor: &caption_processor
+            type: masked_bert_tokenizer
+            params:
+              max_seq_length: 30 # max_length for each text field
+
+model_attributes:
+  univl:
+    num_labels: 1000
+    image_encoder:
+      type: DetrBatchPVTImageEncoder
+      params:
+        gradient_checkpointing: [true, true, true, true]
+
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+training_parameters:
+  lr_scheduler: true
+  lr_ratio: 0.1
+  lr_steps: # support epoch
+    - 10000
+  use_warmup: false
+  warmup_factor: 0.1
+  warmup_iterations: 1000
+  max_iterations: 18000
+  max_epochs: 200
+  patience: 1000000
+  batch_size: 32
+  test_batch_size: 32
+  num_workers: 5
+  snapshot_interval: 2000
+  log_interval: 500
+  max_ckpt_num: 10

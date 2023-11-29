@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/scripts.iml" filepath="$PROJECT_DIR$/.idea/scripts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cnvid_vtp.iml" filepath="$PROJECT_DIR$/.idea/cnvid_vtp.iml" />
     </modules>
   </component>
 </project>

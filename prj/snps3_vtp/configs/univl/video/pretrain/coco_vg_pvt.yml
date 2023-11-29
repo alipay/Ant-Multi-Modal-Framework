@@ -13,7 +13,6 @@ task_attributes:
             - annotations/coco_train2017_pretrain_format_with_subfix.jsonl
             - annotations/image_val_left.jsonl
             - annotations/region_desc_pretrain_format_with_subfix.jsonl
-            - annotations/cc_train.jsonl
           val: annotations/image_val.jsonl
           test: annotations/image_val.jsonl
 

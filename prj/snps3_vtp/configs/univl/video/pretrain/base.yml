@@ -80,6 +80,14 @@ task_attributes:
               preprocessor:
                 type: simple_sentence
                 params: {}
+              #beg   MLM_IW_v3, OCC, VPT
+              intra_VTM:
+                IW_MLM: False
+                HT_words_count_file_dir: /gruntdata/yarn/dongxingning.dxn/extras/ssm_info/count_reprocess_webvid.json
+                vocab_same_lema_dir: /gruntdata/DL_dataset/dongxingning.dxn/remote/others/files/vocab_simi_list_new.json
+                vocab_lema_root_dir: /gruntdata/DL_dataset/dongxingning.dxn/remote/others/files/lema_id_new.json
+                words_top_k: 3000
+              #end   MLM_IW_v3, OCC, VPT
 
 
 model_attributes:
@@ -165,6 +173,16 @@ model_attributes:
         params:
           hidden_size: 768
           with_pooler: false # shared pooler
+
+      Vision_Word_Matching: false
+      MASK_All_IWords_info:
+        HT_words_count_file_dir: /gruntdata/yarn/dongxingning.dxn/extras/ssm_info/count_reprocess_webvid.json
+        vocab_lema_root_dir: /gruntdata/DL_dataset/dongxingning.dxn/remote/others/files/lema_id_new.json
+        TACo_VPT_yingshe_file: /mnt/workspace/dongxingning.dxn/remote/others/files/TACo_VPT_class.json
+        words_top_k: 3000
+        Word_Chosen_Num: 3
+        VWM_count_stage: "after"
+        TACo_Max_Setting: False
 
     hard_example_mining: true
     re_weight_method: "median"   # ["median", "None"]
