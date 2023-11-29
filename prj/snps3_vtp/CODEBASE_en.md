@@ -32,7 +32,11 @@ SNP-S3 supports the following public datasets for multi-modal pre-training and f
 
 ## Performance Results
 
-`TODO`：Performance results are coming soon.
+![alt text](z_figs/performance.jpg)
+
+## Ablation Results
+
+![alt text](z_figs/ablation.jpg)
 
 ## Quick Start
 
