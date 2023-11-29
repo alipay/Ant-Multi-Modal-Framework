@@ -626,6 +626,7 @@ class MaskedTokenProcessor(BaseProcessor):
         tokenizer_config = config.tokenizer_config
         from antmmf.datasets.build import build_tokenizer
 
+        self.config = config
         self._tokenizer = build_tokenizer(tokenizer_config)
 
         self._max_seq_length = (
