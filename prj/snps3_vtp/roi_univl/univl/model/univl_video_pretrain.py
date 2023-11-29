@@ -42,11 +42,11 @@ class VideoMLMPretrainHeads(nn.Module):
         output = []
         # task1: Hierarchical Masked Language Modelling for caption
         # task1-Hier1: text encoder mlm for caption & ocr
-        # text_encoder_mlm_output = self.text_encoder_mlm(
-        #     encoder_output=text_enc_embed,
-        #     targets=text_lm_label_ids,
-        # )
-        # output.append(text_encoder_mlm_output)
+        text_encoder_mlm_output = self.text_encoder_mlm(
+            encoder_output=text_enc_embed,
+            targets=text_lm_label_ids,
+        )
+        output.append(text_encoder_mlm_output)
         # task1-Hier2: multi-modal transformer encoder mlm for caption
         if text_cross_embed is not None:
             transformer_mlm_output = self.transformer_mlm(
@@ -179,7 +179,7 @@ class UnivlForVideoPretraining(nn.Module):
         # MIL-NCE task: cal stage1 & stage2 mil-nce loss
         cap_input = cap_input + (caption_input,)
         vis_input = vis_input + (img_input,)
-        mil_nce_output = self.model_similarity(cap_input, vis_input)
+        mil_nce_output = self.model_similarity(cap_input, vis_input, caption_input, sample_list)
         pretrain_output += [mil_nce_output]
 
         # clip-level output
@@ -288,8 +288,9 @@ class UnivlForVideoPretraining(nn.Module):
 
         return pretrain_output
 
-    def model_similarity(self, cap_input, vis_input):
-        mil_nce_output = self.model.forward_stage(cap_input, vis_input, True)
+    def model_similarity(self, cap_input, vis_input, caption_input=None, sample_list=None):
+        mil_nce_output = self.model.forward_stage(cap_input, vis_input, True,
+                                                  caption_input=caption_input, sample_list=sample_list)
 
         def cal_ret_metric(x):
             # TODO:here is cpu copy and cuda cudaStreamSynchronize,replace it with pure torch
@@ -328,6 +329,28 @@ class UnivlForVideoPretraining(nn.Module):
                         "l2_r_1": l2_r1.to(device),
                         "l2_r_5": l2_r5.to(device),
                         "l2_r_10": l2_r10.to(device),
+                    }
+                )
+            '''Extra outputs for SNP-S3'''
+            if "VWM_after_simi" in mil_nce_output:
+                device = mil_nce_output["VWM_after_simi"].device
+                la_mr, la_r1, la_r5, la_r10 = cal_ret_metric(mil_nce_output["VWM_after_simi"])
+                mil_nce_output["metrics"].update(
+                    {
+                        "VWM_after_mr": la_mr.to(device),
+                        "VWM_after_r@1": la_r1.to(device),
+                        "VWM_after_r@5": la_r5.to(device),
+                        "VWM_after_r@10": la_r10.to(device),
+                    }
+                )
+            if "VWM_before_simi" in mil_nce_output:
+                lb_mr, lb_r1, lb_r5, lb_r10 = cal_ret_metric(mil_nce_output["VWM_before_simi"])
+                mil_nce_output["metrics"].update(
+                    {
+                        "VWM_before_mr": lb_mr.to(device),
+                        "VWM_before_r@1": lb_r1.to(device),
+                        "VWM_before_r@5": lb_r5.to(device),
+                        "VWM_before_r@10": lb_r10.to(device),
                     }
                 )
         return mil_nce_output

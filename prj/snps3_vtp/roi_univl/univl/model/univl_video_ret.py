@@ -11,7 +11,7 @@ from antmmf.utils.distributed_utils import get_world_size, get_rank
 from antmmf.utils.general import get_package_version
 from .moco_utils import MocoUtils
 from .univl_video_base import UnivlVideoBase
-
+import random
 
 class UnivlForVideoTextRetrieval(nn.Module):
     def __init__(self, config):
@@ -29,6 +29,79 @@ class UnivlForVideoTextRetrieval(nn.Module):
         self.with_moco = getattr(self.config, "with_moco", True)
         if self.with_moco:
             self.moco_utils = None
+
+        '''Extra settings for SNP-S3'''
+        if self.config.get("pretraining_heads", False) and self.config.pretraining_heads.get("Vision_Word_Matching", False):
+            print("\nVision_Word_Matching Loss!\n")
+            if self.config.pretraining_heads.MASK_All_IWords_info.VWM_count_stage == 0:
+                print("\nVWM before BERT-MODEL forward!\n")
+            elif self.config.pretraining_heads.MASK_All_IWords_info.VWM_count_stage == 1:
+                print("\nVWM after BERT-MODEL forward!\n")
+            elif self.config.pretraining_heads.MASK_All_IWords_info.VWM_count_stage == 2:
+                print("\nVWM before and after BERT-MODEL forward, do twice!\n")
+            import json
+            with open(config.pretraining_heads.MASK_All_IWords_info.HT_words_count_file_dir, 'r') as reader:
+                HT_count_data = json.load(reader)
+            self.word_rank_info = HT_count_data['rank']
+            self.words_top_k = config.pretraining_heads.MASK_All_IWords_info.words_top_k
+            # 获得词根列表
+            lema_root_dir = config.pretraining_heads.MASK_All_IWords_info.vocab_lema_root_dir
+            with open(lema_root_dir, 'r') as reader:
+                self.lema_root_list = json.load(reader)
+
+            # 获得动名词映射
+            class_path = config.pretraining_heads.MASK_All_IWords_info.TACo_VPT_yingshe_file
+            with open(class_path, 'r') as reader:
+                self.TACo_yingshe_list = json.load(reader)
+            self.num_chosen_word = config.pretraining_heads.MASK_All_IWords_info.Word_Chosen_Num
+        '''Extra settings for SNP-S3'''
+
+    '''Extra settings for SNP-S3'''
+    def VWM_forward_stage(self, word_embed_list, video_embed, output_dict, num_clips=1, cal_cross=True, stage="after"):
+        output_dict = dict(losses={}) if output_dict is None else output_dict
+        """
+        bsz_text, bsz_video, num_clips: clip-level score for training
+        bsz_text, num_clips: clip-level score for val/test
+        """
+        # gather outputs for larger batch_size
+        if self.training and get_world_size() > 1:
+            word_embed_list = gather_tensor(
+                word_embed_list, method="cat", back_gradient=True, pad_tensors=True
+            )
+            video_embed = gather_tensor(
+                video_embed, method="cat", back_gradient=True, pad_tensors=True
+            )
+        simi_matrix_list = []
+
+        for i in range(word_embed_list.shape[1]):
+            word_embed = word_embed_list[:,i,:]
+            simi_matrix_cur = self.get_l1_simi_matrix(
+                word_embed, video_embed, num_clips, cal_cross
+            )
+            simi_matrix_list.append(simi_matrix_cur.unsqueeze(dim=3))
+
+        simi_matrix = torch.cat(simi_matrix_list, dim=3)
+        simi_matrix = simi_matrix.logsumexp(-1)
+
+        if cal_cross and simi_matrix.size(0) == simi_matrix.size(1):
+            # Note:
+            # 1. 训练时cal_cross=True, 输入一定是匹配的pair
+            # reshape bsz_text, bsz_video, num_clips -> bsz_text*num_clips, bsz_video*num_clips
+            bsz_text = bsz_video = simi_matrix.size(0)
+            mil_simi = (
+                    simi_matrix.unsqueeze(1)
+                    .repeat([1, num_clips, 1, 1])
+                    .view(bsz_text * num_clips, bsz_video * num_clips)
+            )
+            VWM_simi_loss = self.get_mil_nce_loss(mil_simi, bsz_text, num_clips)
+        else:
+            # 2. 测试时计算global simi-matrix分块计算，输入不是匹配的pair, 无需计算loss
+            VWM_simi_loss = simi_matrix.new_tensor(0.0)
+
+        output_dict["losses"]["VWM_%s_similarity_loss"%stage] = VWM_simi_loss
+        output_dict["VWM_%s_simi"%stage] = self.reduce_clips(simi_matrix, "l1")
+        return output_dict
+    '''Extra settings for SNP-S3'''
 
     def _cross_similarity(
         self, sequence_output, visual_output, attention_mask, video_mask, num_clips
@@ -442,7 +515,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
 
         return output_dict
 
-    def forward_stage(self, cap_input, vis_input, cal_cross=True):
+    def forward_stage(self, cap_input, vis_input, cal_cross=True, caption_input=None, sample_list=None):
         output_dict = None
         if "stage1" in self.config.training_stage:
             output_dict = self.forward_stage1(
@@ -452,7 +525,97 @@ class UnivlForVideoTextRetrieval(nn.Module):
             output_dict = self.forward_stage2(
                 vis_input, cap_input, output_dict, cal_cross=cal_cross
             )
+
+        '''Extra settings for SNP-S3'''
+        # Proxy Task: Vision Word Matching
+        if self.config.get("pretraining_heads", False) and self.config.pretraining_heads.get("Vision_Word_Matching", False):
+            before_cap_embed, after_cap_embed = self.VWM_get_cap_input(caption_input, sample_list)
+            output_dict = self.VWM_model_similarity(before_cap_embed, after_cap_embed, vis_input, output_dict, True)
+        '''Extra settings for SNP-S3'''
         return output_dict
+
+    '''Extra settings for SNP-S3'''
+    def VWM_get_cap_input(self, caption_input, sample_list):
+        raw_caption_input_ids = caption_input["caption_input_ids"].clone().detach()
+        bsz, len_seq = raw_caption_input_ids.shape
+        IW_word_idx_list = []
+        other_word_idx_list = []
+        for i in range(bsz):
+            IW_word_idx_piece = []
+            other_word_idx_piece = []
+            for j in range(len_seq):
+                cap_id = raw_caption_input_ids[i][j].item()
+                lbl_id = sample_list.caption_lm_label_ids[i][j].item()
+                if lbl_id == -1:
+                    id_raw = cap_id
+                else:
+                    id_raw = lbl_id
+                    raw_caption_input_ids[i][j] = sample_list.caption_lm_label_ids[i][j]
+                id_c = self.lema_root_list[id_raw]
+                if self.word_rank_info[id_c] <= self.words_top_k and self.TACo_yingshe_list[id_c] != -1:
+                    IW_word_idx_piece.append(j)
+                elif id_raw not in [0, 101, 102, 103]:
+                    other_word_idx_piece.append(j)
+            # PAD or CHOOSE the word embed to satisfy self.num_chosen_word
+            if len(IW_word_idx_piece) == 0:
+                if len(other_word_idx_piece) == 0:
+                    for i in range(self.num_chosen_word):
+                        IW_word_idx_piece.append(i)
+                else:
+                    IW_word_idx_piece = other_word_idx_piece
+            if len(IW_word_idx_piece) < self.num_chosen_word:
+                new_piece = IW_word_idx_piece
+                for i in range(self.num_chosen_word - len(new_piece)):
+                    idx = random.randint(0, len(IW_word_idx_piece) - 1)
+                    new_piece.append(IW_word_idx_piece[idx])
+            elif len(IW_word_idx_piece) > self.num_chosen_word:
+                new_piece = []
+                idx_list = random.sample(range(0, len(IW_word_idx_piece)), self.num_chosen_word)
+                for idx in idx_list:
+                    new_piece.append(IW_word_idx_piece[idx])
+            else:
+                new_piece = IW_word_idx_piece
+
+            IW_word_idx_list.append(new_piece)
+            other_word_idx_list.append(other_word_idx_piece)
+
+        before_cap_embed = None
+        after_cap_embed = None
+        if self.config.pretraining_heads.MASK_All_IWords_info.VWM_count_stage in ["before", "both"]:
+            raw_token_type_ids = torch.zeros_like(raw_caption_input_ids)
+            before_cap_embed = self.module.cross_embeddings(
+                input_ids=raw_caption_input_ids, token_type_ids=raw_token_type_ids
+            )
+            before_cap_embed = self.VWM_feature_rearrange(before_cap_embed, IW_word_idx_list, bsz)
+        if self.config.pretraining_heads.MASK_All_IWords_info.VWM_count_stage in ["after", "both"]:
+            text_embed_dict = self.module.forward_text_encoder(
+                raw_caption_input_ids, caption_input["caption_input_mask"]
+            )
+            after_cap_embed = text_embed_dict["sequence_output"]
+            after_cap_embed = self.VWM_feature_rearrange(after_cap_embed, IW_word_idx_list, bsz)
+        return before_cap_embed, after_cap_embed
+
+    def VWM_feature_rearrange(self, raw_cap_embed, IW_word_idx_list, bsz):
+        word_cap_list = []
+        for i in range(bsz):
+            word_cap_piece = []
+            for cid in IW_word_idx_list[i]:
+                word_cap_piece.append(raw_cap_embed[i, cid, :])
+            word_cap_piece = torch.stack(word_cap_piece)
+            word_cap_list.append(word_cap_piece)
+        word_cap_list = torch.stack(word_cap_list)
+        return word_cap_list
+
+    def VWM_model_similarity(self, before_cap_embed, after_cap_embed, vis_input, output_dict=None, cal_cross=True):
+        visual_embed, visual_mask, video_embed, num_clips = vis_input
+        if before_cap_embed is not None:
+            output_dict = self.VWM_forward_stage(before_cap_embed, video_embed, output_dict,
+                                                           num_clips, cal_cross, stage="before")
+        if after_cap_embed is not None:
+            output_dict = self.VWM_forward_stage(after_cap_embed, video_embed, output_dict,
+                                                           num_clips, cal_cross, stage="after")
+        return output_dict
+    '''Extra settings for SNP-S3'''
 
     def forward(
         self,

@@ -77,6 +77,7 @@ import warnings
 from collections import Counter
 
 import torch
+import json
 
 from antmmf.common import Configuration
 from antmmf.common.constants import (
@@ -644,10 +645,69 @@ class MaskedTokenProcessor(BaseProcessor):
         # https://github.com/google-research/bert/blob/master/create_pretraining_data.py#L350-L358
         self._wwm = config.get("whole_word_masking", False)
 
+        # intra_MLM for SNP-S3
+        if config.get("intra_VTM", False) and config.intra_VTM.get("IW_MLM", False):
+            print('\nMLM IW V3!\n')
+            path = config.intra_VTM.HT_words_count_file_dir
+            with open(path, 'r') as reader:
+                HT_count_data = json.load(reader)
+
+            self.word_rank_info = HT_count_data['rank']
+            self.words_top_k = config.intra_VTM.words_top_k
+            important_tokens = []
+            for i in range(len(self.word_rank_info)):
+                if self.word_rank_info[i] <= self.words_top_k:
+                    important_tokens.append(i)
+            self.important_words = important_tokens
+            # 获得同词根的vocab列表
+            same_lema_word_dir = config.intra_VTM.vocab_same_lema_dir
+            with open(same_lema_word_dir, 'r') as reader:
+                self.same_lema_list = json.load(reader)
+            # 获得词根列表
+            lema_root_dir = config.intra_VTM.vocab_lema_root_dir
+            with open(lema_root_dir, 'r') as reader:
+                self.lema_root_list = json.load(reader)
+
     def get_vocab_size(self):
         return len(self._tokenizer)
 
+    '''intra_MLM for SNP-S3'''
+    def get_important_tag_list(self, tokens, need_more_word=True):
+        IW_word_tag = []
+        IW_word_lists = []
+        other_token_idx_list = []
+
+        for i in range(len(tokens)):
+            id_raw = self._tokenizer.convert_tokens_to_ids(tokens[i])
+            if self.word_rank_info[id_raw] <= self.words_top_k:
+                IW_word_lists.append(i)
+            elif need_more_word:
+                id_c = self.lema_root_list[id_raw]
+                if self.word_rank_info[id_c] <= self.words_top_k and tokens[i] not in ["background", "backgrounds"]:
+                    IW_word_lists.append(i)
+                    tokens[i] = self._tokenizer.convert_ids_to_tokens(id_c)
+                else:
+                    other_token_idx_list.append(i)
+            else:
+                other_token_idx_list.append(i)
+            IW_word_tag.append(0)
+        return IW_word_tag, IW_word_lists, other_token_idx_list, tokens
+
+    def get_one_from_same_vocab(self, root_idx):
+        root_list = self.same_lema_list[root_idx]
+        if len(root_list) == 0:
+            return self._tokenizer.convert_ids_to_tokens(root_idx)[0]
+        else:
+            root_rand_idx = random.randint(0, len(root_list) - 1)
+            return root_list[root_rand_idx]
+
     def _random_word(self, tokens, probability=0.15):
+        if self.config.get("intra_VTM", False) and self.config.intra_VTM.get("IW_MLM", False):
+            return self._random_word_IW_MLM(tokens, probability=probability)
+        else:
+            return self._random_word_raw(tokens, probability=probability)
+
+    def _random_word_raw(self, tokens, probability=0.15):
         labels = []
         from antmmf.utils.text_utils import is_chinese
 
@@ -675,6 +735,58 @@ class MaskedTokenProcessor(BaseProcessor):
                 labels.append(-1)
 
         return tokens, labels
+
+    def _random_word_IW_MLM(self, tokens, probability=0.15):
+        labels = []
+        for i in range(len(tokens)):
+            labels.append(-1)
+
+        '''get masked words'''
+        IW_word_tag, IW_word_lists, other_id_lists, tokens = self.get_important_tag_list(tokens)
+        chosen_num = int(len(tokens) * probability)
+        float_num = len(tokens) * probability - chosen_num
+
+        if float_num >= 0.3:
+            chosen_num += 1
+        if chosen_num > len(IW_word_lists):
+            chosen_idx_list = []
+            for i in range(len(IW_word_lists)):
+                chosen_idx_list.append(i)
+            rest_num = chosen_num - len(IW_word_lists)
+            tt_rand_list = random.sample(range(0, len(other_id_lists)), rest_num)
+            for trl in tt_rand_list:
+                tokens[trl] = self._MASK_TOKEN
+                labels[trl] = self._tokenizer.convert_tokens_to_ids(tokens[trl])
+        else:
+            chosen_idx_list = random.sample(range(0, len(IW_word_lists)), chosen_num)
+        for cil in chosen_idx_list:
+            IW_word_tag[IW_word_lists[cil]] = 1
+
+        #get masked tokens and labels
+        for idx, token in enumerate(tokens):
+            # if self._random_mask_chinese and not is_chinese(token):
+            #     # not make char as target other than chinese
+            #     labels.append(-1)
+            if IW_word_tag[idx] == 1:
+                new_prob = random.random()
+
+                # 80% randomly change token to mask token
+                if new_prob < 0.8:
+                    tokens[idx] = self._MASK_TOKEN
+                # 10% randomly change token to random token
+                elif new_prob < 0.9:
+                    new_idx = random.randint(0, len(self.important_words)-1)
+                    root_idx = self.important_words[new_idx]
+                    tokens[idx] = self.get_one_from_same_vocab(root_idx)
+
+                # rest 10% keep the original token as it is
+
+                labels[idx] = self._tokenizer.convert_tokens_to_ids(token)
+            # else:
+            #     labels.append(-1)
+
+        return tokens, labels
+    '''end intra_MLM for SNP-S3'''
 
     def _truncate_tokens(self, tokens, max_length, random_truncate=True):
         total = len(tokens)
