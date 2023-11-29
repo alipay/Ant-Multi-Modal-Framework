@@ -597,7 +597,7 @@ class UnivlForVideoTextRetrieval(nn.Module):
         return word_cap_list
 
     def VWM_model_similarity(self, before_cap_embed, after_cap_embed, vis_input, output_dict=None, cal_cross=True):
-        visual_embed, visual_mask, video_embed, num_clips = vis_input
+        visual_embed, visual_mask, video_embed, num_clips, _ = vis_input
         if before_cap_embed is not None:
             output_dict = self.VWM_forward_stage(before_cap_embed, video_embed, output_dict,
                                                            num_clips, cal_cross, stage="before")
