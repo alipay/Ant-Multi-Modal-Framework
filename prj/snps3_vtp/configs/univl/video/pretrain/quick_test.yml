@@ -1,5 +1,5 @@
 includes:
-- ./EN_coco_vg_cc_videoswin.yml
+- ./cc_videoswin.yml
 
 task_attributes:
   univl_task:
