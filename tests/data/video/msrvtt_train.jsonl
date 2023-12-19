@@ -1,4 +1,4 @@
 {"caption": "a person is connecting something to system", "clip_name": "data/mp4/video9770", "sen_id": 0, "label": 1}
 {"caption": "the system is connected by a person", "clip_name": "data/mp4/video9770", "sen_id": 1, "label": 2}
-{"caption": "a little girl does gymnastics", "clip_name": "data/mp4/video9771", "sen_id": 0, "label": 0}
-{"caption": "test keyframe format video", "clip_name": "samples/345872714514302976", "sen_id": 0, "label": 3}
+{"caption": "a little girl does gymnastics", "clip_name": "data/mp4/video9771", "sen_id": 2, "label": 0}
+{"caption": "test keyframe format video", "clip_name": "data/mp4/video9771", "sen_id": 3, "label": 3}
