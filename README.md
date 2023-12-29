@@ -11,12 +11,13 @@
 
 *Read this in [English](README_en.md).*
 
-## News （最近更新）
+## News （最近更新2023/12/21）
 
 本项目作为底层代码库，是如下项目的底层依赖，包括：
 
 - SNP-S3: 多模态预训练模型【TCSVT，CCF-B】
 - CNVid-3.5M: 中文多模态预训练模型 & 中文视频文本数据集 【CVPR-23，CCF-A】
+- DMAE: 双模态注意力增强的文本视频检索 & 三元偏序对比学习 【ACM MM-23，CCF-A】
 
 ## Introduction （介绍）
 
