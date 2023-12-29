@@ -110,6 +110,7 @@ class RetrievalTrainer(BaseTrainer):
                         text_batch["caption_input_mask"],
                         text_batch["caption_tid"],
                         text_batch["caption_vid_list"],
+                        text_batch.get("caption_twm_input_mask"),
                     )
                 )
                 batch_data = visual_batch["image_data"]
@@ -176,6 +177,7 @@ class RetrievalTrainer(BaseTrainer):
                 input_mask,
                 caption_tid,
                 caption_vid_list,
+                twm_input_mask,
             ) in all_text_batchs:
                 text_embed_l1 = t_encoder(txt_input_ids, input_mask)["pooled_output"]
                 cap_embed, cap_mask, batch_size = prepare_cross_text(

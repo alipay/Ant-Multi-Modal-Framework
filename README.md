@@ -11,7 +11,7 @@
 
 *Read this in [English](README_en.md).*
 
-## News （最近更新2023/12/21）
+## News （最近更新2023/12/29）
 
 本项目作为底层代码库，是如下项目的底层依赖，包括：
 
@@ -49,7 +49,8 @@ source activate antmmf
 
 # clone项目地址
 cd /YourPath/
-git clone https://code.alipay.com/multimodal/antmmf.git
+git clone https://github.com/alipay/Ant-Multi-Modal-Framework
+
 
 # 安装包依赖
 cd antmmf

@@ -20,7 +20,7 @@ source activate antmmf
 
 # Clone this project.
 cd /YourPath/
-git clone https://code.alipay.com/multimodal/antmmf.git
+git clone https://github.com/alipay/Ant-Multi-Modal-Framework
 
 # Install the required packages.
 cd antmmf

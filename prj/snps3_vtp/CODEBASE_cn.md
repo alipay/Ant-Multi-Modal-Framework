@@ -12,7 +12,7 @@ source activate snps3-vtp
 
 # clone项目地址
 cd /YourPath/
-git clone https://code.alipay.com/multimodal/antmmf.git
+git clone https://github.com/alipay/Ant-Multi-Modal-Framework
 
 # 安装包依赖
 cd antmmf
