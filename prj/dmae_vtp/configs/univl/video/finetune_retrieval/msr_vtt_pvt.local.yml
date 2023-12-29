@@ -1,0 +1,71 @@
+includes:
+- ./base.yml
+- ../visual_encoder/pvt.yml
+
+task_attributes:
+  univl_task:
+    dataset_attributes:
+      video_text_retrieval:
+        data_root_dir: ../tests/data/video/
+        l3_use_twm: true
+
+        annotations:
+          train: msrvtt_train.jsonl
+          val: msrvtt_test.jsonl
+          test: msrvtt_test.jsonl
+
+        train_ensemble_n_clips: 8 # 8 for full test
+        test_ensembel_n_clips: 2 # 16 for full test
+        num_frm: 1
+
+        # support lmdb database for faster reading, convert video to lmdb:
+        # prj/univl/scripts/lmdb_conversion.py
+
+        videos:
+          train: .
+          val: .
+          test: .
+
+        processors:
+          train_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: train
+              crop_size: 224
+              aug_type: randaug
+          test_frame_processor:
+            type: pyvideo_transform
+            params:
+              mode: val
+              crop_size: 224
+              aug_type: randaug
+
+optimizer_attributes:
+  type: AdamW
+  params:
+    lr: 1e-5
+    betas: [0.9, 0.98]
+    weight_decay: 1e-4
+
+model_attributes:
+  univl:
+    encoder_lr_decay: 1.0
+    training_head_type: video_text_retrieval
+    training_stage: stage1+stage2+stage3
+    l3_with_nfc: true
+    l3_partial_type: 4  # choices: [-1,2,3,4], defautl = -1
+    l3_loss_type: negNCE # choices: ["cross_entropy","negNCE"], default = "negNCE"
+    l3_interaction: wti # choices:["ti","wti","att_ti","att_wti"], defautl = "wti"
+    l3_max_frames: 8
+    l3_max_words: 30
+
+training_parameters:
+  batch_size: 2
+  test_batch_size: 2
+  num_workers: 0
+  log_interval: 2
+
+  load_pretrained: True
+  pretrained_mapping:
+    module.model.model.module: module.model.module
+    module.model.model: module.model # 加载预训练similarity_dense
