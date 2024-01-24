@@ -59,7 +59,7 @@ pip install -r requirements.txt
 ## 致谢
 我们的代码基于[FAIR mmf](https://github.com/facebookresearch/mmf)，感谢作者的重要开源贡献。
 
-## 联系方式
+## 联系我们
 
 :raising_hand: 如需帮助或解决与本代码库相关的问题，请提交issue。
 
