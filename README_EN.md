@@ -2,7 +2,7 @@
 
 ## Introduction
  
-This repository contains code for multi-modality learning from the Multimodal Cognition group of Ant Group that is integrated into AntMMF. AntMMF encapsulates standard multimodal functionalities including dataset management, data processing, training workflows, models, and modules, while also enabling custom extensions of these components.
+This repository contains codes for multi-modality learning from the Multimodal Cognition group of Ant Group that have been integrated into AntMMF. AntMMF encapsulates standard multimodal functionalities including dataset management, data processing, training workflows, models, and modules, while also enabling custom extensions of these components.
 
 
 ## News
