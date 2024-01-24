@@ -1,5 +1,5 @@
 # 蚂蚁多模态框架
-Read this in [English](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/README_en.md).
+Read this in [English](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/README_EN.md).
 
 # 简介
 本代码库包含蚂蚁多模态认知团队在AntMMF中集成的多模态方向研究代码。AntMMF多模态框架封装了包括数据集管理、数据处理、训练流程、模型和模块在内的标准多模态功能，同时支持这些组件的自定义扩展。
