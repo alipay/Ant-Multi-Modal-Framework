@@ -1,4 +1,4 @@
-# DMAE/TPM_CL: Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning
+# DMAE/TPM-CL: Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning
 
 This repository contains the codebase for our paper
 [Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning](https://arxiv.org/pdf/2309.11082.pdf), which has been accepted by ACM MM2023.
