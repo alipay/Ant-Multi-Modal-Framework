@@ -15,13 +15,12 @@ In recent years, the explosion of web videos makes text-video retrieval increasi
 If you find DMAE/TPM-CL useful, please consider citing the following paper:
 
 ```
-@inproceedings{@article{Jiang2023DualModalAT,
+@inproceedings{Jiang2023DualModalAT,
   title={Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning},
-  author={Chen, Jiang and Hon, Liu and Xuzheng, Yu and Qing, Wang and Yuan, Cheng and Jia, Xu and Zhongyi, Liu and Qingpei, Guo and Wei, Chu and Ming, Yang and Yuan, Qi},
+  author={Chen, Jiang and Hong, Liu and Xuzheng, Yu and Qing, Wang and Yuan, Cheng and Jia, Xu and Zhongyi, Liu and Qingpei, Guo and Wei, Chu and Ming, Yang and Yuan, Qi},
   booktitle={Proceedings of the 31st ACM International Conference on Multimedia (ACM MM)},
   year={2023},
   pages={4626–4636},
-  doi={https://doi.org/10.1145/3581783.3612006}}
-}}
+  doi={https://doi.org/10.1145/3581783.3612006}
 }
 ```
