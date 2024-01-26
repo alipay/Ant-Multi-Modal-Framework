@@ -48,7 +48,7 @@ pip install -r requirements.txt
 If you find AntMMF useful for your work, please consider citing:
 ```
 @misc{qp2023AntMMF,
-  author =       {Qingpei, Guo and Xingning, Dong and Xuzheng, Yu and Chen, Qi and Shiyu, Xuan},
+  author =       {Qingpei, Guo and Xingning, Dong and Xuzheng, Yu and Chen, jiang and Shiyu, Xuan},
   title =        {AntMMF: Ant Multi-Modal Framework},
   howpublished = {\url{https://github.com/alipay/Ant-Multi-Modal-Framework}},
   year =         {2023}
