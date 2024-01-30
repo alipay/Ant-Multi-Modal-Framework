@@ -65,4 +65,4 @@ Our code is based on [FAIR mmf](https://github.com/facebookresearch/mmf). We tha
 ## Contact Information
 :raising_hand: For help or issues with this codebase, please submit an issue.
 
-:star: We are hiring, if you are interested with our work, please feel free to contact  Qingpei Guo(qingpei.gqp@antgroup.com).
+:star: We are hiring, if you are interested in our work, please feel free to contact  Qingpei Guo(qingpei.gqp@antgroup.com).
