@@ -54,7 +54,8 @@ pip install -r requirements.txt
 ```
 
 ## License
-本项目根据[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 授权，在正确引用出处的情况下，允许在任何媒介中无限制地使用、分发和复制。
+
+本项目根据[Apache 2.0](https://github.com/apache/.github/blob/main/LICENSE) 授权，在正确引用出处的情况下，允许在任何媒介中无限制地使用、分发和复制。
 
 ## 致谢
 我们的代码基于[FAIR mmf](https://github.com/facebookresearch/mmf)，感谢作者的重要开源贡献。
