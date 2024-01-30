@@ -56,7 +56,7 @@ If you find AntMMF useful for your work, please consider citing:
 ```
 
 ## License
-This project is licensed under the [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
+This project is licensed under the [Apache 2.0](https://github.com/apache/.github/blob/main/LICENSE) license, which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.
 
 ## Acknowledgments
 Our code is based on [FAIR mmf](https://github.com/facebookresearch/mmf). We thank the authors for their wonderful open-source efforts.
