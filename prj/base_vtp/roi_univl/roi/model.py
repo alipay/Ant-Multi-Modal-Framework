@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 # roi_model: modelling relationship among modalities of Region-OCR-Image.
 
 import warnings

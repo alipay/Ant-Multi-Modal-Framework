@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 The processors exist in antmmf to make data processing pipelines in various
 datasets as similar as possible while allowing code reuse.

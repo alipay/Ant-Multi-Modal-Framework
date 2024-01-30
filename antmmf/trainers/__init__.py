@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from .base_trainer import BaseTrainer
 from .adv_trainer import AdvTrainer

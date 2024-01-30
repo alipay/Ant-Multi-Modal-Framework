@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 __all__ = ["FreeLB", "AdamW", "CombinedOptimizer"]
 
 from .adv_free_lb import FreeLB

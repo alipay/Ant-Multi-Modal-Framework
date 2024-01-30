@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 Tasks come above datasets in hierarchy level. In case you want to
 implement a new task, you need to inherit ``BaseTask`` class. You need

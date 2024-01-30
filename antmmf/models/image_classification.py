@@ -1,3 +1,4 @@
+# Copyright (c) 2023 Ant Group and its affiliates.
 import torch
 from antmmf.common.registry import registry
 from antmmf.models.base_model import BaseModel

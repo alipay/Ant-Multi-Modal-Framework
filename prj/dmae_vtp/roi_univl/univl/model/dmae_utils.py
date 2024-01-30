@@ -1,5 +1,6 @@
 # coding=utf-8
-# Copyright (c) Ant Group. All rights reserveimport logging
+# Copyright (c) 2023 Ant Group and its affiliates.
+
 import logging
 import torch
 from torch import nn

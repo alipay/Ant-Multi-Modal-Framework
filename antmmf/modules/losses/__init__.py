@@ -1,5 +1,5 @@
 # -- coding: utf-8 --
-# Copyright (c) Ant Group and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from .losses import Losses, AntMMFLoss
 from .binary_cross_entropy import BinaryCrossEntropyLoss

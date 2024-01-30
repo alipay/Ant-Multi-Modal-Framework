@@ -1,4 +1,4 @@
-# Copyright Ant Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 from typing import List
 import torch
 

@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 Text utils module contains implementations for various decoding strategies like
 Greedy, Beam Search and Nucleus Sampling.

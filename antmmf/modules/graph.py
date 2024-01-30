@@ -1,4 +1,4 @@
-# Copyright (c) Ant Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 # pylint: disable= no-member, arguments-differ, invalid-name, cell-var-from-loop
 import torch

@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserve
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 import numpy as np
 import torch

@@ -1,4 +1,4 @@
-# Ant Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from collections import defaultdict
 

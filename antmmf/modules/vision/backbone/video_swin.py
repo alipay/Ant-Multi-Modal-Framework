@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 # modified from https://github.com/SwinTransformer/Video-Swin-Transformer\
 # /blob/master/mmaction/models/backbones/swin_transformer.py

@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 The fusions module contains various Fusions techniques some based on BLOCK:
 Bilinear Superdiagonal Fusion for VQA and VRD. For e.g. LinearSum, ConcatMLP

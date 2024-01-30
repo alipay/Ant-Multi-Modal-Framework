@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from antmmf.modules.module_registry import ModuleRegistry
 from antmmf.modules.transformers.base import TransformerDecoder

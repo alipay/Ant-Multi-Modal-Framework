@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 """
 Convert feature extracted from  antmmf.datasets.features.vision.feature_saver to lmdb format. To load features from

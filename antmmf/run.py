@@ -1,5 +1,5 @@
 # -- coding: utf-8 --
-# Copyright (c) Ant Financial Service Group and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 """
 Build a trainer and launch it, you can wrap it in your own project.

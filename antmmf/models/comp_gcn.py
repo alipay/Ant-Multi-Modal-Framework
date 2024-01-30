@@ -1,4 +1,4 @@
-# Copyright (c) Ant Group, and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from antmmf.models.base_model import BaseModel
 from antmmf.common.registry import registry

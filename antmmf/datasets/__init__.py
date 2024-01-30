@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 from .base_dataset import BaseDataset
 from .base_dataset_builder import BaseDatasetBuilder
 

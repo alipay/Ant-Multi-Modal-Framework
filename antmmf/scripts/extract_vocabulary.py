@@ -1,5 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
-# All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 #
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.

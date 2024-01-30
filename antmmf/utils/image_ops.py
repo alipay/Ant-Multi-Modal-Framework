@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 import math
 import random

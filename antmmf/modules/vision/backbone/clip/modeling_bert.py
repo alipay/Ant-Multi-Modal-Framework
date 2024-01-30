@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 # Code for BERT model from Chinese CLIP:
 # https://github.com/OFA-Sys/Chinese-CLIP/blob/master/cn_clip/clip/modeling_bert.py
 # This code has some modifications compared to the official bert code:

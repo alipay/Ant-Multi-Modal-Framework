@@ -1,4 +1,4 @@
 # -- coding: utf-8 --
-# Copyright (c) Ant Financial Service Group and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from .swish import SwishFunction

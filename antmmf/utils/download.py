@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 # Original taken from ParlAI https://git.io/JvjfS, this file has been
 # adapted for MMF use cases.
 

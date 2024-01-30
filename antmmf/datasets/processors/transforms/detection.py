@@ -1,5 +1,5 @@
 # -- coding: utf-8 --
-# Copyright (c) Ant Financial Service Group and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 """
 Transforms of detection tasks. The difference between these and torchvision.transforms

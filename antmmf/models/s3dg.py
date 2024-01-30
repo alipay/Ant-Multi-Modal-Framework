@@ -1,5 +1,5 @@
 """
-CopyRight: Ant Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 Contains the definition for Gated Separable 3D network (S3D-G).
 

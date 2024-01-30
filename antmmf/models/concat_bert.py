@@ -1,3 +1,4 @@
+# Copyright (c) 2023 Ant Group and its affiliates.
 import torch
 from torch.nn import functional as F
 

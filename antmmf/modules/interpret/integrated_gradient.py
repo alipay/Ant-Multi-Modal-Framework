@@ -1,4 +1,4 @@
-# Copyright Ant Group
+# Copyright (c) 2023 Ant Group and its affiliates.
 import numpy
 from antmmf.common.registry import registry
 from antmmf.utils import tensor_utils

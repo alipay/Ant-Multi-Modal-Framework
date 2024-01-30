@@ -1,6 +1,6 @@
 #!usr/bin/env python
 # -*- coding:utf-8 -*-
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 import torch
 from antmmf.common.registry import registry

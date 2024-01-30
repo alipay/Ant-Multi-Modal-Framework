@@ -1,5 +1,5 @@
 # coding: utf-8
-# Copyright (c) Ant Group. All rights reserved.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 from antmmf.modules.encoders.multimodal_bert_clf import MultimodalBertClf
 from .univl_base import UniVlBase

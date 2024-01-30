@@ -1,6 +1,5 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates. All Rights Reserved.
-# Code is copy-pasted exactly as in torch.utils.data.distributed.
-# FIXME remove this once c10d fixes the bug it has
+# Copyright (c) 2023 Ant Group and its affiliates.
+
 import copy
 import math
 import random

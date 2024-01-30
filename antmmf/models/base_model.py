@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 Models built on top of antmmf need to inherit ``BaseModel`` class and adhere to
 some format. To create a model for antmmf, follow this quick cheatsheet.

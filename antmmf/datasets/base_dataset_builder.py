@@ -1,4 +1,4 @@
-# Copyright (c) Ant Financial Service Group. and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 """
 In antmmf, for adding new datasets, dataset builder for datasets need to be
 added. A new dataset builder must inherit ``BaseDatasetBuilder`` class and

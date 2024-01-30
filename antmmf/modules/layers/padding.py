@@ -1,5 +1,5 @@
 # -- coding: utf-8 --
-# Copyright (c) Ant Group and its affiliates.
+# Copyright (c) 2023 Ant Group and its affiliates.
 
 import math
 import torch.nn.functional as F
