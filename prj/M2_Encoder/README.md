@@ -9,7 +9,7 @@ Vision-language foundation models like CLIP have revolutionized the field of art
 
 ## Overall Results
 An overview of existing multimodal models on zero-shot classification and retrieval performance. The top-1 accuracy on (a) ImageNet-CN and (b) ImageNet. The retrieval MR on (c) Flicker30K-CN and (d) Flicker30K. Our $M^2$-Encoders excel compared to models with a similar number of parameters.
-![](pics/effect.png)
+![](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/main/prj/M2_Encoder/pics/effect.png)
 
 
 ## Citations
