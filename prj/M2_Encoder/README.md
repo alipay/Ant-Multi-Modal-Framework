@@ -1,11 +1,11 @@
 # $M^2$-Encoder: Advancing Bilingual Image-Text Understanding by Large-scale Efficient Pretraining
 	
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-text-to-image-retrieval-on-coco-cn)](https://paperswithcode.com/sota/zero-shot-text-to-image-retrieval-on-coco-cn?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-image-retrieval-on-coco-cn)](https://paperswithcode.com/sota/zero-shot-image-retrieval-on-coco-cn?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-cross-modal-retrieval-on-flickr30k)](https://paperswithcode.com/sota/zero-shot-cross-modal-retrieval-on-flickr30k?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-image-retrieval-on-flickr30k-cn)](https://paperswithcode.com/sota/zero-shot-image-retrieval-on-flickr30k-cn?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-transfer-image-classification-on-1)](https://paperswithcode.com/sota/zero-shot-transfer-image-classification-on-1?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-learning-on-imagenet-cn)](https://paperswithcode.com/sota/zero-shot-learning-on-imagenet-cn?p=boldsymbol-m-2-encoder-advancing-bilingual)
+[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-text-to-image-retrieval-on-coco-cn)](https://paperswithcode.com/sota/zero-shot-text-to-image-retrieval-on-coco-cn?p=boldsymbol-m-2-encoder-advancing-bilingual)
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/boldsymbol-m-2-encoder-advancing-bilingual/zero-shot-cross-modal-retrieval-on-coco-2014)](https://paperswithcode.com/sota/zero-shot-cross-modal-retrieval-on-coco-2014?p=boldsymbol-m-2-encoder-advancing-bilingual)
 
 
