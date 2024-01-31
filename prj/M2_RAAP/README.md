@@ -13,7 +13,7 @@ We are preparing codebase and data annotations, which will be available soon.
 
 ## Citation
 
-If you find SNP-S3 useful, please consider citing the following paper:
+If you find M2-RAAP useful, please consider citing the following paper:
 
 ```
 @ARTICLE{10214396,
