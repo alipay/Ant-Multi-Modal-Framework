@@ -1,6 +1,6 @@
 # M2-RAAP: A Multi-Modal Recipe for Advancing Adaptation-based Pre-training towards Effective and Efficient Zero-shot Video-text Retrieval
 
-This repository contains codebase and data annotations for our paper [M2-RAAP: A Multi-Modal Recipe for Advancing Adaptation-based Pre-training towards Effective and Efficient Zero-shot Video-text Retrieval](https://ieeexplore.ieee.org/document/10214396).
+This repository contains codebase and data annotations for our paper [M2-RAAP: A Multi-Modal Recipe for Advancing Adaptation-based Pre-training towards Effective and Efficient Zero-shot Video-text Retrieval](https://arxiv.org/abs/2401.17797).
 
 ## What is M2-RAAP?
 
@@ -16,14 +16,13 @@ We are preparing codebase and data annotations, which will be available soon.
 If you find M2-RAAP useful, please consider citing the following paper:
 
 ```
-@ARTICLE{10214396,
-  author={Dong, Xingning and Guo, Qingpei and Gan, Tian and Wang, Qing and Wu, Jianlong and Ren, Xiangyuan and Cheng, Yuan and Chu, Wei},
-  journal={IEEE Transactions on Circuits and Systems for Video Technology}, 
-  title={SNP-S3: Shared Network Pre-training and Significant Semantic Strengthening for Various Video-Text Tasks}, 
-  year={2023},
-  volume={},
-  number={},
-  pages={1-1},
-  doi={10.1109/TCSVT.2023.3303945}
+@misc{dong2024m2raap,
+    title={M2-RAAP: A Multi-Modal Recipe for Advancing Adaptation-based Pre-training towards Effective and Efficient Zero-shot Video-text Retrieval},
+    author={Xingning Dong and Zipeng Feng and Chunluan Zhou and Xuzheng Yu and Ming Yang and Qingpei Guo},
+    url={https://arxiv.org/abs/2401.17797},
+    year={2024},
+    eprint={2401.17797},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV}
 }
 ```
