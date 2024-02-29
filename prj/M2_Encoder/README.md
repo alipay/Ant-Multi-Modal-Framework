@@ -19,8 +19,11 @@ image-text cross-modal retrieval and zero-shot image classification
 
 ## Schedule
 - [x] Release $M^2$-Encoder code
-- [ ] Release Weights on Huggingface and Modelscope
-- [ ] Release Demos on Huggingface and Modelscope
+- [x] Release Weights on Modelscope
+- [ ] Release Demos on Modelscope
+
+## Weights on Modelscope 
+https://www.modelscope.cn/models/M2Cognition/M2-Encoder/summary
 
 ## Quick Start 
 ```
@@ -36,9 +39,11 @@ git clone https://github.com/alipay/Ant-Multi-Modal-Framework
 cd ./Ant-Multi-Modal-Framework/prj/M2_Encoder/
 pip install -r requirements.txt
 
-# 运行demo
+# 运行demo, 会自动下载modelscope上的权重
 python run.py
 ```
+
+
 
 ## Evaluation Results
 An overview of existing multimodal models on zero-shot classification and retrieval performance. The top-1 accuracy on (a) ImageNet-CN and (b) ImageNet. The retrieval MR on (c) Flicker30K-CN and (d) Flicker30K. Our $M^2$-Encoders excel compared to models with a similar number of parameters.
