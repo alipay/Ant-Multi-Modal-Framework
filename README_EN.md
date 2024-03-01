@@ -6,7 +6,8 @@ This repository contains codes for multi-modality learning from the Multimodal C
 
 
 ## News
-- December, 2023: We release the code of [SNP-S3](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/snps3_vtp), [DMAE](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/dmae_vtp), and [CNVid-3.5M](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/cnvid_vtp).
+- February, 2024: release the code of bilingual multimodal CLIP-[M2-Encoder](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_Encoder), which was trained on our BM-6B bilingual dataset.
+- December, 2023: release the code of [SNP-S3](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/snps3_vtp), [DMAE](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/dmae_vtp), and [CNVid-3.5M](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/cnvid_vtp).
 - June, 2023: [SNP-S3](https://ieeexplore.ieee.org/document/10214396) was accepted by IEEE T-CSVT 2023.
 - May, 2023: [DMAE](https://arxiv.org/pdf/2309.11082.pdf) was accepted by ACM MultiMedia 2023.
 - March, 2023: [CNVid-3.5M](https://openaccess.thecvf.com/content/CVPR2023/papers/Gan_CNVid-3.5M_Build_Filter_and_Pre-Train_the_Large-Scale_Public_Chinese_Video-Text_CVPR_2023_paper.pdf) was accepted by CVPR 2023.
