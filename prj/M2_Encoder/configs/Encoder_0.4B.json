@@ -12,5 +12,5 @@
   "modelscope": {
     "model_id": "M2Cognition/M2-Encoder"
   },
-  "model_file": "m2_encoder_0.2B.ckpt"
+  "model_file": "m2_encoder_0.4B.ckpt"
 }
