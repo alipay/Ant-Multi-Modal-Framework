@@ -9,7 +9,7 @@ from nn4k.consts import NN_EXECUTOR_KEY
 from nn4k.invoker import LLMInvoker
 
 cfg = {
-    'model_config': './configs/Encoder_0.2B.json',
+    'model_config': './configs/Encoder_0.4B.json',
     NN_EXECUTOR_KEY: 'm2_encoder.M2EncoderExecutor'
 }
 

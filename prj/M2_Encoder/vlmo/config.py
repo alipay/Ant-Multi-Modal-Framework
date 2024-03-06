@@ -31,7 +31,7 @@ def config():
     encoder_layers = 12  # the layer number of backbone
     encoder_embed_dim = 768  # the hidden size of tokenizer
     out_embed_dim = 768  # the hidden size of output embedding
-    beit_version = "base"  # model size: base(0.2B)|large(1B)|huge(10B)
+    beit_version = "base"  # model size: base(0.4B)|large(1B)|huge(10B)
     beit3_vl_layers = 3  # the layer number of vl_backbone
     deepnorm_init = True  # init method
     share_layer = False  # if share the weight between layer within backbone
