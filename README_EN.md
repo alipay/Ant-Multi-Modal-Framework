@@ -6,6 +6,7 @@ This repository contains codes for multi-modality learning from the Multimodal C
 
 
 ## News
+- March, 2024: [M2-RAAP](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_RAAP) was accepted by SIGIR 2024.
 - February, 2024: release the code of bilingual multimodal CLIP-[M2-Encoder](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_Encoder), which was trained on our BM-6B bilingual dataset.
 - December, 2023: release the code of [SNP-S3](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/snps3_vtp), [DMAE](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/dmae_vtp), and [CNVid-3.5M](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/cnvid_vtp).
 - June, 2023: [SNP-S3](https://ieeexplore.ieee.org/document/10214396) was accepted by IEEE T-CSVT 2023.
