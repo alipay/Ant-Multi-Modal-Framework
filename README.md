@@ -6,7 +6,7 @@ Read this in [English](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/
 
 
 ## News
-- 2024.03: [M2-RAAP](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_RAAP)被SIGIR 2024接收，M2-RAAP介绍了一种将CLIP 高效拓展为 SOTA的 视频-文本检索模型的方法
+- 2024.03: [M2-RAAP](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_RAAP)被SIGIR 2024接收，M2-RAAP介绍将CLIP模型高效拓展为SOTA的视频-文本检索模型的方法
 - 2024.02: 开源中英双语多模态CLIP:[M2-Encoder](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_Encoder), 使用大规模中英文数据进行训练（~60亿图文对）
 - 2023.12: 开源以下论文代码 [SNP-S3](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/snps3_vtp), [DMAE](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/dmae_vtp), and [CNVid-3.5M](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/cnvid_vtp).
 - 2023.06: [SNP-S3](https://ieeexplore.ieee.org/document/10214396) 被IEEE T-CSVT(Transactions on Circuits and Systems for Video Technology) 2023接收.
