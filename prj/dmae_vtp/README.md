@@ -9,22 +9,6 @@ In recent years, the explosion of web videos makes text-video retrieval increasi
 
 ![alt text](demo_figs/simple_framework.png)
 
-
-## Citation
-
-If you find DMAE/TPM-CL useful, please consider citing the following paper:
-
-```
-@inproceedings{Jiang2023DualModalAT,
-  title={Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning},
-  author={Chen, Jiang and Hong, Liu and Xuzheng, Yu and Qing, Wang and Yuan, Cheng and Jia, Xu and Zhongyi, Liu and Qingpei, Guo and Wei, Chu and Ming, Yang and Yuan, Qi},
-  booktitle={Proceedings of the 31st ACM International Conference on Multimedia (ACM MM)},
-  year={2023},
-  pages={4626–4636},
-  doi={https://doi.org/10.1145/3581783.3612006}
-}
-```
-
 ## Installation
 
 - Please follow the forward steps to initialize the environment of the Base-VTP.
@@ -85,3 +69,18 @@ python -m antmmf.utils.launch \
 ## Inference
 
 DMAE-VTP supports inference with a well pre-trained model, please follow `prj/dmae_vtp/scripts/local_test/msr_vtt_pvt.eval.sh` for more information.
+
+## Citation
+
+If you find DMAE/TPM-CL useful, please consider citing the following paper:
+
+```
+@inproceedings{Jiang2023DualModalAT,
+  title={Dual-Modal Attention-Enhanced Text-Video Retrieval with Triplet Partial Margin Contrastive Learning},
+  author={Chen, Jiang and Hong, Liu and Xuzheng, Yu and Qing, Wang and Yuan, Cheng and Jia, Xu and Zhongyi, Liu and Qingpei, Guo and Wei, Chu and Ming, Yang and Yuan, Qi},
+  booktitle={Proceedings of the 31st ACM International Conference on Multimedia (ACM MM)},
+  year={2023},
+  pages={4626–4636},
+  doi={https://doi.org/10.1145/3581783.3612006}
+}
+```
