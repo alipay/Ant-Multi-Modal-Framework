@@ -24,3 +24,26 @@ If you find DMAE/TPM-CL useful, please consider citing the following paper:
   doi={https://doi.org/10.1145/3581783.3612006}
 }
 ```
+
+## Installation
+
+- Please follow the forward steps to initialize the environment of the Base-VTP.
+```
+# Build a new environment.
+conda create -n dmae-vtp python=3.8
+source activate dmae-vtp
+
+# Clone this project.
+cd /YourPath/
+git clone https://github.com/alipay/Ant-Multi-Modal-Framework
+
+# Install the required packages.
+cd antmmf
+pip install -r requirements.txt
+
+## Quick Start
+
+DMAE-VTP provides the following script for local test.
+```
+sh prj/dmae_vtp/scripts/local_test/msr_vtt_pvt.local.sh
+```
