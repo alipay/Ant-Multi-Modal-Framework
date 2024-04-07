@@ -3,6 +3,7 @@ export PYTORCH_TRANSFORMERS_CACHE='/YourPath/'
 export TORCH_HOME='/YourPath/'
 
 # eval: retrieval stage2
+CONFIG=configs/univl/video/finetune_retrieval/msr_vtt_pvt.local.yml 
 MSRVTT_FINETUNE_SAVE_DIR=/YourCheckpointPath/
 ROOT_DIR=/YourPath/
 
