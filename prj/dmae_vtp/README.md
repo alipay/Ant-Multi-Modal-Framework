@@ -51,7 +51,7 @@ sh prj/dmae_vtp/scripts/local_test/msr_vtt_pvt.local.sh
 
 ## Training
 
-DMAE-VTP provides various pre-training scripts, please follow `prj/dmae_vtp/scripts/train` for more information.
+DMAE-VTP provides various pre-training scripts, please follow `prj/dmae_vtp/scripts/local_test/msr_vtt_pvt.train.sh` for more information.
 
 The following shell command is an example to start the video-text training on MSRVTT datasets.
 
@@ -84,4 +84,4 @@ python -m antmmf.utils.launch \
 
 ## Inference
 
-DMAE-VTP supports inference with a well pre-trained model, please follow `prj/dmae_vtp/scripts/eval/msr_vtt_pvt.sh` for more information.
+DMAE-VTP supports inference with a well pre-trained model, please follow `prj/dmae_vtp/scripts/local_test/msr_vtt_pvt.eval.sh` for more information.
