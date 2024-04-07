@@ -40,6 +40,7 @@ git clone https://github.com/alipay/Ant-Multi-Modal-Framework
 # Install the required packages.
 cd antmmf
 pip install -r requirements.txt
+```
 
 ## Quick Start
 
