@@ -4,7 +4,7 @@ export TORCH_HOME='/YourPath/'
 
 CONFIG=configs/univl/video/finetune_retrieval/msr_vtt_pvt.yml 
 # finetune:  retrieval stage1
-SAVE_DIR=output/msr_vtt_pvt-base_stage1_l1l2l3_dmae
+SAVE_DIR=/YourPath1/
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python -m antmmf.utils.launch \
     --nproc_per_node=8 --master_port=12582 run.py \
@@ -25,8 +25,8 @@ python -m antmmf.utils.launch \
     
 if false;then
 # finetune:  retrieval stage2
-PRETRAINED_CKPT=output/msr_vtt_pvt-base_stage1_l1l2l3_dmae/univl_task_univl/models/model_23000.ckpt
-SAVE_DIR=output/msr_vtt_pvt-base_stage2_l1l2l3_dmae
+PRETRAINED_CKPT=/YourPath1/
+SAVE_DIR=/YourPath2/
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
 python -m antmmf.utils.launch \
     --nproc_per_node=8 --master_port=12591 run.py \
