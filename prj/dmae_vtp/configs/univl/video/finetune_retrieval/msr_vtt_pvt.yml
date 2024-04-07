@@ -17,12 +17,10 @@ task_attributes:
         test_ensembel_n_clips: 16 # 16 for full test
         num_frm: 1
 
-        # support lmdb database for faster reading, convert video to lmdb:
-        # prj/univl/scripts/lmdb_conversion.py
         videos:
-          train: msrvtt_videos.lmdb
-          val: msrvtt_videos.lmdb
-          test: msrvtt_videos.lmdb
+          train: .
+          val: .
+          test: .
 
 model_attributes:
   univl:
