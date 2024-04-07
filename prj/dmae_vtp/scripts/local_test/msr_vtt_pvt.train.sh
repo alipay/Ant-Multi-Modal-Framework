@@ -2,7 +2,7 @@ export PYTHONPATH=`pwd`/../../:$PYTHONPATH
 export PYTORCH_TRANSFORMERS_CACHE='/YourPath/'
 export TORCH_HOME='/YourPath/'
 
-CONFIG=configs/univl/video/finetune_retrieval/msr_vtt_pvt.yml 
+CONFIG=configs/univl/video/finetune_retrieval/msr_vtt_pvt.local.yml 
 # finetune:  retrieval stage1
 SAVE_DIR=/YourPath1/
 export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
