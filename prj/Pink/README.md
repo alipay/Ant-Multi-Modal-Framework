@@ -91,8 +91,3 @@ If you find Pink useful for your research and applications, please cite using th
 ## Acknowledgement
 - [LLaVA](https://github.com/haotian-liu/LLaVA): the codebase we refer to.
 - [Shikra](https://github.com/shikras/shikra): the codebase we refer to.
-
-## Related Projects
-[LocLLM](https://github.com/kennethwdk/LocLLM): We leverage LLM for the human keypoint localization. LocLLM shows remarkable performance on standard 2D/3D keypoint localization benchmarks. Moreover, incorporating language clues into the localization makes LocLLM show superior flexibility and generalizable capability in cross dataset keypoint localization, and even detecting novel type of keypoints unseen during training.
-
-[Ant-Multi-Modal-Framework](https://github.com/alipay/Ant-Multi-Modal-Framework): This repository contains codes for multi-modality learning from the Multimodal Cognition group of Ant Group that have been integrated into AntMMF.
