@@ -1,6 +1,6 @@
 # EVE: Efficient zero-shot text-based Video Editing with Depth Map Guidance and Temporal Consistency Constraints
 
-This repository contains codebase and data annotations for our paper [EVE: Efficient zero-shot text-based Video Editing with Depth Map Guidance and Temporal Consistency Constraints](https://arxiv.org/abs/2401.17797).
+This repository contains codebase, the ZVE-50 dataset, and editing demos for our paper: [EVE: Efficient zero-shot text-based Video Editing with Depth Map Guidance and Temporal Consistency Constraints](https://arxiv.org/abs/2401.17797).
 
 ## What is EVE?
 
