@@ -21,6 +21,6 @@ ftfy
 sentencepiece
 pyomo
 mup
-openspg-nn4k
+openspg-nn4k==0.0.2b3
 modelscope
 
