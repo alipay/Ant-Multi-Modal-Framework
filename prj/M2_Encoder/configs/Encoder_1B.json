@@ -1,0 +1,21 @@
+{
+  "loss_names": {"itc": 1},
+  "beit_version": "large",
+  "encoder_embed_dim": 1024,
+  "out_embed_dim": 1024,
+  "encoder_layers": 21,
+  "beit3_vl_layers": 3,
+  "image_size": 224,
+  "visual_mask_size": 14,
+  "tokenizer_type": "GLMChineseTokenizer",
+  "tokenizer": "./vlmo/tokenizer",
+  "vocab_size": 115244,
+  "whole_word_masking": false,
+  "precision": 32,
+  "test_only": true,
+  "flash_attn": true,
+  "modelscope": {
+    "model_id": "M2Cognition/M2_Encoder_Large"
+  },
+  "model_file": "m2_encoder_1B.ckpt"
+}
