@@ -20,7 +20,7 @@ image-text cross-modal retrieval and zero-shot image classification
 ## Schedule
 - [x] Release $M^2$-Encoder code
 - [x] Release Weights on Modelscope
-- [ ] Release Demos on Modelscope
+- [x] Release Demos on Modelscope
 
 ## Weights on Modelscope 
 https://www.modelscope.cn/models/M2Cognition/M2-Encoder/summary
