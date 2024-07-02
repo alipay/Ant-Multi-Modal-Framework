@@ -23,7 +23,11 @@ image-text cross-modal retrieval and zero-shot image classification
 - [x] Release Demos on Modelscope
 
 ## Weights on Modelscope 
-https://www.modelscope.cn/models/M2Cognition/M2-Encoder/summary
+ | Model | Weight|
+ | ----------- | ----------- |
+ | $M^2$-Encoder-0.4B | [link](https://www.modelscope.cn/models/M_Square/M2-Encoder)|
+ | $M^2$-Encoder-1B | [link](https://www.modelscope.cn/models/M_Square/M2_Encoder_Large)|
+ | $M^2$-Encoder-10B | [link](https://www.modelscope.cn/models/M_Square/M2_Encoder_Huge)|
 
 ## Quick Start 
 ```
