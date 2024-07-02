@@ -63,6 +63,12 @@ If you find $M^2$-Encoder useful for your work, please consider citing:
       year={2024},
       url={https://arxiv.org/abs/2401.15896},
 }
+@misc{ma2024sycoca,
+      title={SyCoCa: Symmetrizing Contrastive Captioners with Attentive Masking for Multimodal Alignment}, 
+      author={Ziping Ma, Furong Xu, Jian Liu, Ming Yang, Qingpei Guo},
+      year={2024},
+      url={https://arxiv.org/abs/2401.02137},
+}
 ```
 
 ## Acknowledgement
