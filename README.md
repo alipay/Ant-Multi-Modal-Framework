@@ -6,6 +6,7 @@ Read this in [English](https://github.com/alipay/Ant-Multi-Modal-Framework/blob/
 
 
 ## News
+- 2024.05: M2-Encoder核心网络结构[SyCoca](https://arxiv.org/abs/2401.02137)被ICML2024接收
 - 2024.04: 增强指代理解能力的多模态大模型-[Pink](https://arxiv.org/abs/2310.00582)被CVPR2024接收，开源对应论文代码: [Pink](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/Pink).
 - 2024.03: [M2-RAAP](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_RAAP)被SIGIR 2024接收，介绍了将CLIP模型高效拓展为SOTA的视频-文本检索模型的方法
 - 2024.02: 开源中英双语多模态CLIP:[M2-Encoder](https://github.com/alipay/Ant-Multi-Modal-Framework/tree/main/prj/M2_Encoder), 使用大规模中英文数据进行训练（~60亿图文对）
