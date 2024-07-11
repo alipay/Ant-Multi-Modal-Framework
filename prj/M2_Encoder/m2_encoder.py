@@ -17,24 +17,62 @@ class M2EncoderExecutor(LLMExecutor):
 
         nn_config: dict = args or self.init_args
         if self._model is None:
-            model_config = get_string_field(nn_config, 'model_config', '')
+            model_config = get_string_field(nn_config, "model_config", "")
             device = nn_config.get(NN_DEVICE_KEY)
             if device is None:
                 device = "cuda" if torch.cuda.is_available() else "cpu"
             self._device = device
 
             from vlmo.utils.beit_utils import load_from_config
+
             model, processors = load_from_config(model_config)
             model.to(device).eval()
             self._model = model
             self._tokenizer, self._img_processor = processors
 
     def inference(self, data, args=None, **kwargs):
+        if kwargs:
+            if (
+                "extract_feat" in kwargs["kwargs"]
+                and kwargs["kwargs"]["extract_feat"] == "text"
+            ):
+                txt_encoding = self._tokenizer(
+                    data["texts"],
+                    padding="max_length",
+                    truncation=True,
+                    max_length=self._model.hparams.config["max_text_len"],
+                    return_special_tokens_mask=True,
+                )
+                txt_data = {
+                    "text_ids": torch.tensor(txt_encoding["input_ids"]).to(
+                        self._device
+                    ),
+                    "text_masks": torch.tensor(txt_encoding["attention_mask"]).to(
+                        self._device
+                    ),
+                    "text_labels": None,
+                }
+                with torch.no_grad():
+                    txt_feats = self._model.infer_text(txt_data)["cls_vlffn_feats"]
+                return txt_feats
+            elif (
+                "extract_feat" in kwargs["kwargs"]
+                and kwargs["kwargs"]["extract_feat"] == "image"
+            ):
+                from PIL import Image
+
+                img = self._img_processor(Image.open(data["image_path"]).convert('RGB')).unsqueeze(0)
+                img_data = {"image": [img.to(self._device)]}
+                with torch.no_grad():
+                    img_feats = self._model.infer_image(img_data)["cls_vlffn_feats"]
+                return img_feats
+
         from PIL import Image
-        img = self._img_processor(Image.open(data['image_path'])).unsqueeze(0)
+
+        img = self._img_processor(Image.open(data["image_path"]).convert('RGB')).unsqueeze(0)
         img_data = {"image": [img.to(self._device)]}
         txt_encoding = self._tokenizer(
-            data['texts'],
+            data["texts"],
             padding="max_length",
             truncation=True,
             max_length=self._model.hparams.config["max_text_len"],

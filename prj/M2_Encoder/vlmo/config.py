@@ -61,7 +61,7 @@ def config():
     # Text Setting
     lang = 'cn'  # language for zero-shot imagenet testing: cn|en
     vqav2_label_size = 3129
-    max_text_len = 40  # the number of characters
+    max_text_len = 52  # the number of characters
     max_text_len_of_initckpt = 196
     tokenizer_type = "BertTokenizer"  # Chinese text
     vocab_size = 21128
