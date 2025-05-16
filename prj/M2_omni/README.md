@@ -34,15 +34,15 @@ Detailed evaluation results are reported in our [technical report](https://www.a
 
 ### Install
 ```
-# 新建环境（Python版本3.8）
+# create env（Python版本3.8）
 conda create -n m2-omni python=3.8
 source activate m2-omni
 
-# clone项目地址
+# clone rep
 cd /YourPath/
 git clone https://github.com/alipay/Ant-Multi-Modal-Framework
 
-# 安装包依赖
+# install
 cd ./Ant-Multi-Modal-Framework/prj/M2_omni/
 pip install -r requirements.txt
 ```
