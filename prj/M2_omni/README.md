@@ -34,7 +34,7 @@ Detailed evaluation results are reported in our [technical report](https://www.a
 
 ### Install
 ```
-# create env（Python版本3.8）
+# create env（python 3.8）
 conda create -n m2-omni python=3.8
 source activate m2-omni
 
