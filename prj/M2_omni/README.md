@@ -20,7 +20,7 @@ You can download the model from both Huggingface and ModelScope.
 
 | **Model**              |   **Input modality**    | **Oput modality** |                                                                            **Download**                                                                            |
 | :--------------------- | :---------------------: | :---------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| M2-Omni | Image,text,video,audio | Image,text,audio  | [🤖 ModelScope](https://www.modelscope.cn/models/M2Cognition/M2-omni) |
+| M2-omni | Image,text,video,audio | Image,text,audio  | [🤖 ModelScope](https://www.modelscope.cn/models/M2Cognition/M2-omni) |
 </div>
 
 
