@@ -16,7 +16,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""PyTorch Bailing2Native model."""
+"""PyTorch m2-omni model."""
 
 from dataclasses import dataclass
 from typing import List, Optional, Tuple, Union, Any, Dict

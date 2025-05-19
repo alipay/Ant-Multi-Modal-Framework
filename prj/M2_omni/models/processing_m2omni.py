@@ -34,9 +34,9 @@ from transformers.processing_utils import (
 )
 from transformers.tokenization_utils_base import PreTokenizedInput, TextInput
 
-from .image_processing_bailing2 import Bailing2ImageProcessor
+from .image_processing_m2omni import Bailing2ImageProcessor
 from .feature_extraction_sanm import SANMFeatureExtractor
-from .bailing2_utils import process_vision_info
+from .m2omni_utils import process_vision_info
 
 DEFAULT_IMAGE_PATCH_TOKEN = "<imagePatch>"
 DEFAULT_VIDEO_PATCH_TOKEN = "<videoPatch>"
