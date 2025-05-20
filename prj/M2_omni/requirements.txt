@@ -1,0 +1,8 @@
+torch==2.1.0
+torchvision==0.16.0
+transformers==4.45.0
+funasr==1.0.19
+peft==0.13.2
+numpy
+math
+modelscope
