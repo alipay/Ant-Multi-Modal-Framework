@@ -1,6 +1,18 @@
 # M2-omni: Advancing Omni-MLLM for Comprehensive Modality Support with Competitive Performance
 
 
+> [!IMPORTANT]
+>
+> **End of Active Maintenance for M2_omni**
+> 
+> Since June 2025, the core features of M2_omni have been integrated into [Ming-Omni](https://github.com/inclusionAI/Ming). 
+>
+> We regret to announce that we will no longer actively maintain M2_omni. This means we will not be addressing issues, merging pull requests, or releasing updates. For ongoing development and support, we encourage you to explore [Ming-Omni](https://github.com/inclusionAI/Ming), which continues to evolve with new features and improvements.
+>
+> Thank you for being part of our journey.
+
+
+
 Official trsnsformers inference code of the paper ["M2-omni: Advancing Omni-MLLM for Comprehensive Modality Support with Competitive Performance"](https://www.arxiv.org/abs/2502.18778).
 
 
